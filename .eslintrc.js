@@ -12,6 +12,11 @@ module.exports = {
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+      // 添加组件命名忽略规则
+ 
+      "vue/multi-word-component-names": ["error",{
+        "ignores": ["Login","index"]  //在这个数组中加入需要忽略的组件名
+     }]
   }
 }
