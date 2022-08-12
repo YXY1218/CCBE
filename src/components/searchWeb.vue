@@ -1,5 +1,6 @@
 import "/mock/index.js"
-<template>
+<!-- 本页暂时不用
+  <template>
 <div>
  <el-button @click="drawer = true" type="primary" style="margin-left: 16px;">
   点我打开
@@ -30,9 +31,9 @@ import "/mock/index.js"
      <el-table-column label="查询范围" prop="variety"></el-table-column>
      <el-table-column label="文本地址" prop="url"></el-table-column>
      <el-table-column label="文本内容" prop="content" fit="false"></el-table-column>
-</el-table>
+</el-table> 
 
-<!--分页区-->
+
 <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -103,4 +104,4 @@ export default {
 .el-pagination {
   margin-top: 15px;
 }
-</style>
+</style> -->
