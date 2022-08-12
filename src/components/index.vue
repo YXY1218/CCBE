@@ -1,3 +1,4 @@
+import "/mock/index.js"
 <template>
  <el-container class="home-container">
    <!--头部区域-->
@@ -20,10 +21,54 @@
   <br>
   </div>
   <div class="search">
-  <el-input placeholder="请输入内容" v-model="input3" class="input">
-     <el-button slot="append" icon="el-icon-search"></el-button>
+  <el-input placeholder="请输入内容" v-model="queryInfo.keyword" class="input3">
+    <el-select v-model="select" slot="prepend" placeholder="请选择">
+      <el-option label="所有" value="1"></el-option>
+      <el-option label="中国大陆" value="2"></el-option>
+      <el-option label="中国香港" value="3"></el-option>
+      <el-option label="中国澳门" value="4"></el-option>
+      <el-option label="中国台湾" value="5"></el-option>
+      <el-option label="新加坡" value="6"></el-option>
+      <el-option label="马来西亚" value="7"></el-option>
+    </el-select>
+     <el-button slot="append" icon="el-icon-search" @click="drawer = true; getUserList ()" target="_blank"></el-button>
   </el-input>
+  <el-drawer
+  :visible.sync="drawer"
+  size="100%">
+  <div>
+   <el-table 
+   :data="userlist"
+    style="width: 100%"
+   max-height="550"
+   stripe>
+     <el-table-column type="index"></el-table-column>
+     <el-table-column label="查询范围" prop="variety"></el-table-column>
+     <el-table-column label="文本地址" prop="url"></el-table-column>
+     <el-table-column label="文本内容" prop="content" fit="false"></el-table-column>
+</el-table>
+
+<!--分页区-->
+<el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page.sync="queryInfo.pageNo"
+      :page-size="queryInfo.pageSize"
+      layout="prev, pager, next, jumper"
+      :total="total">
+</el-pagination>
+  </div>
+</el-drawer>
    </div>
+   <!-- <el-table 
+   :data="userlist"
+    style="width: 100%"
+   max-height="550">
+     <el-table-column type="index"></el-table-column>
+     <el-table-column label="查询范围" prop="variety"></el-table-column>
+     <el-table-column label="文本地址" prop="url"></el-table-column>
+     <el-table-column label="文本内容" prop="content" fit="false"></el-table-column>
+   </el-table> -->
    </div>
   </el-main>
   <!--尾部区-->
@@ -80,32 +125,60 @@
 </template>
 
 <script>
+const axios = require('axios')
 export default {
   data () {
-   return {
-      input3: '',
-      //获取搜索的值
+    return {
+      input3: '', // 获取搜索的值
+      select: '',
       queryInfo: {
         keyword: '',
-        variety: '',
+        variety: 'ALL',
         pageNo: 1,
         pageSize: 8
-      }
+      },
+      userlist: [],
+      total: 0,
+      drawer: false,
+      innerDrawer: false
     }
   },
-  created() {
+  created () {
     this.getUserList()
   },
   methods: {
-    async getUserList() {
-      const{ data: res } = await this.$http.get('http://43.251.224.187:8080',{ 
-        params: this.queryInfo
-        })
-      console.log(res)
+    async getUserList () {
+      // window.open('./searchWeb.vue')
+      const keyword = this.queryInfo.keyword
+      const variety = this.queryInfo.variety
+      const pageNo = this.queryInfo.pageNo
+      const pageSize = this.queryInfo.pageSize
+      console.log(this.input3)
+      console.log(this.queryInfo)
+      // const { data: res } = await this.$http.get('http://43.251.224.187:8080', {
+      //   params: this.queryInfo
+      // })
+      axios.get('/search/match/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+        console.log(response.data)
+        this.userlist = response.data.DocumentList
+        this.total = response.data.TotalHits
+      })
+      /* axios.get('http://43.251.224.187:8080/search/match/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+        console.log(response.data)
+      }) */
+    },
+    handleSizeChange(newSize) {
+       console.log(newSize)
+    },
+    handleCurrentChange(newPage) {
+      console.log(newPage)
+      this.queryInfo.pageNo = newPage
+      this.getUserList()
     }
   }
-}
+} 
 </script>
+
 
 <style lang="less" scoped>
 .home-container {
@@ -117,7 +190,7 @@ export default {
   border-color: #813939;
   display: flex;
   justify-content: space-between;
-  padding-left: 5;
+  padding-left: 5px;
   align-items: center;
   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
 }
@@ -126,8 +199,8 @@ export default {
     display:block;
     margin:0 auto;
   }
-  >.search{
-    width: 35%;
+  .search{
+    width: 100%;
     display: block;
     margin:0 auto;
   }
@@ -141,6 +214,12 @@ export default {
     margin: 0 auto;
     text-align: center;
   }
+  .el-select{
+    width: 130px;
+  }
+  .el-pagination {
+  margin-top: 15px;
+}
 }
 .el-footer {
   >.footer{
