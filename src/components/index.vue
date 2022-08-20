@@ -33,7 +33,7 @@
       <el-option label="马来西亚" value="my"></el-option>
     </el-select> 
     -->
-    <el-select v-model="select" slot="prepend" placeholder="请选择">
+    <el-select v-model="queryInfo.select" slot="prepend" placeholder="请选择">
       <el-option label="精确查询" value="match"></el-option>
       <el-option label="模糊查询" value="fuzzy"></el-option>
     </el-select> 
@@ -209,12 +209,12 @@ export default {
   data () {
     return {
       input3: '', // 获取搜索的值
-      select: '',
       queryInfo: {
         keyword: '',
         variety: 'ALL',
         pageNo: 1,
-        pageSize: 10
+        pageSize: 10,
+        select: ''
       },
       userlist: [],
       Frequency: [],
@@ -234,17 +234,18 @@ export default {
       const variety = this.queryInfo.variety
       const pageNo = this.queryInfo.pageNo
       const pageSize = this.queryInfo.pageSize
+      const select = this.queryInfo.select
       console.log(this.input3)
       console.log(this.queryInfo)
       // const { data: res } = await this.$http.get('http://43.251.224.187:8080', {
       //   params: this.queryInfo
       // })fuzzy
-      axios.get('http://localhost:8080/search/match/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+      axios.get('http://localhost:8080/search/'+ select +'/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
         console.log(response.data)
         this.userlist = response.data.DocumentList
         this.total = response.data.TotalHits
       })
-      axios.get('http://localhost:8080/count/' + 'match' + '/' + keyword).then(response => {
+      axios.get('http://localhost:8080/count/' + select + '/' + keyword).then(response => {
         console.log(response.data)
         this.Frequency = response.data.Frequency
       })
