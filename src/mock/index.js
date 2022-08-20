@@ -12,7 +12,7 @@ Mock.XHR.prototype.send = function () {
   this.proxy_send(...arguments)
 }
 
-Mock.mock(/\/search\/match/, 'get', function (option) {
+Mock.mock(/\/search/, 'get', function (option) {
   return Mock.mock({
     TotalHits: '@natural(1, 100)',
     'DocumentList|10': [
@@ -33,7 +33,7 @@ Mock.mock(/\/search\/match/, 'get', function (option) {
     ]
   })
 })
-Mock.mock(/\/count\/match/, 'get', function (option) {
+Mock.mock(/\/count/, 'get', function (option) {
   return Mock.mock({
     'Frequency|1-1':[
     {

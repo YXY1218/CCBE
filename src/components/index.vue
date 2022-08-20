@@ -240,7 +240,7 @@ export default {
       // const { data: res } = await this.$http.get('http://43.251.224.187:8080', {
       //   params: this.queryInfo
       // })fuzzy
-      axios.get('http://localhost:8080/search/'+ select +'/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+      axios.get('http://localhost:8080/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
         console.log(response.data)
         this.userlist = response.data.DocumentList
         this.total = response.data.TotalHits
