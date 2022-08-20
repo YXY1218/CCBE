@@ -33,5 +33,20 @@ Mock.mock(/\/search\/match/, 'get', function (option) {
     ]
   })
 })
+Mock.mock(/\/count\/match/, 'get', function (option) {
+  return Mock.mock({
+    'Frequency|1-1':[
+    {
+    all: '@natural(1, 100)',
+    mo: '@natural(1, 100)',
+    hk: '@natural(1, 100)',
+    tw: '@natural(1, 100)',
+    sg: '@natural(1, 100)',
+    cn: '@natural(1, 100)',
+    my: '@natural(1, 100)'
+    }
+    ]
+  })
+})
 
 export default Mock

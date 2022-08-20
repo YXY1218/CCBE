@@ -1,4 +1,4 @@
-import "/mock/index.js"
+<!--import "/mock/index.js"-->
 <template>
  <el-container class="home-container">
    <!--头部区域-->
@@ -22,33 +22,110 @@ import "/mock/index.js"
   </div>
   <div class="search">
   <el-input placeholder="请输入内容" v-model="queryInfo.keyword" class="input3">
+    <!-- 
+      <el-select v-model="queryInfo.variety" slot="prepend" placeholder="请选择">
+      <el-option label="所有" value="ALL"></el-option>
+      <el-option label="中国大陆" value="cn"></el-option>
+      <el-option label="中国香港" value="hk"></el-option>
+      <el-option label="中国澳门" value="mo"></el-option>
+      <el-option label="中国台湾" value="tw"></el-option>
+      <el-option label="新加坡" value="sg"></el-option>
+      <el-option label="马来西亚" value="my"></el-option>
+    </el-select> 
+    -->
     <el-select v-model="select" slot="prepend" placeholder="请选择">
-      <el-option label="所有" value="1"></el-option>
-      <el-option label="中国大陆" value="2"></el-option>
-      <el-option label="中国香港" value="3"></el-option>
-      <el-option label="中国澳门" value="4"></el-option>
-      <el-option label="中国台湾" value="5"></el-option>
-      <el-option label="新加坡" value="6"></el-option>
-      <el-option label="马来西亚" value="7"></el-option>
-    </el-select>
-     <el-button slot="append" icon="el-icon-search" @click="drawer = true; getUserList ()" target="_blank"></el-button>
+      <el-option label="精确查询" value="match"></el-option>
+      <el-option label="模糊查询" value="fuzzy"></el-option>
+    </el-select> 
+    <el-button slot="append" icon="el-icon-search" @click="drawer = true; getUserList ()" target="_blank"></el-button>
   </el-input>
-  <el-drawer
+  
+<el-drawer
+  title="统计数量"
   :visible.sync="drawer"
   size="100%">
   <div>
-   <el-table 
+<el-table
+    :data="Frequency"
+    style="width: 100%"
+    align="center"
+    >
+    <!--统计数量-->
+    <el-table-column prop="all" label="所有" width="217" align="center">
+      <template slot-scope="scope">
+           <div>
+             <a href="#" @click="innerDrawer = true">{{scope.row.all}}</a>
+           </div>
+      </template> 
+    </el-table-column>
+    <el-table-column prop="mo" label="中国大陆" width="217" align="center">
+      <template slot-scope="scope">
+           <div>
+             <a href="#" @click="innerDrawer = true">{{scope.row.mo}}</a>
+           </div>
+      </template> 
+    </el-table-column>
+    <el-table-column prop="hk" label="中国香港" width="217" align="center">
+            <template slot-scope="scope">
+           <div>
+             <a href="#" @click="innerDrawer = true">{{scope.row.hk}}</a>
+           </div>
+      </template> 
+    </el-table-column>
+    <el-table-column prop="tw" label="中国澳门" width="217" align="center">
+            <template slot-scope="scope">
+           <div>
+             <a href="#" @click="innerDrawer = true">{{scope.row.tw}}</a>
+           </div>
+      </template> 
+    </el-table-column>
+    <el-table-column prop="sg" label="中国台湾" width="217" align="center">
+            <template slot-scope="scope">
+           <div>
+             <a href="#" @click="innerDrawer = true">{{scope.row.sg}}</a>
+           </div>
+      </template> 
+    </el-table-column>
+    <el-table-column prop="cn" label="新加坡" width="217" align="center">
+            <template slot-scope="scope">
+           <div>
+             <a href="#" @click="innerDrawer = true">{{scope.row.cn}}</a>
+           </div>
+      </template> 
+    </el-table-column>
+    <el-table-column prop="my" label="马来西亚" width="217" align="center">
+            <template slot-scope="scope">
+           <div>
+             <a href="#" @click="innerDrawer = true">{{scope.row.my}}</a>
+           </div>
+      </template> 
+    </el-table-column>
+  </el-table>
+
+  <el-drawer
+  :visible.sync="innerDrawer"
+  size="100%">
+  <div>
+   <el-table
    :data="userlist"
     style="width: 100%"
-   max-height="550"
+   max-height="500"
    stripe>
      <el-table-column type="index"></el-table-column>
      <el-table-column label="查询范围" prop="variety"></el-table-column>
      <el-table-column label="文本地址" prop="url"></el-table-column>
-     <el-table-column label="文本内容" prop="content" fit="false"></el-table-column>
-</el-table>
-
-<!--分页区-->
+     <el-table-column label="文本内容" prop="content" fit="false" >
+       <template slot-scope="scope">
+       <!--<div v-html='scope.row.content'></div>-->
+       <!--设置本列多余数据隐藏显示及高亮-->
+     <el-popover placement="top-start" width="400" trigger="hover">
+      <div v-html='scope.row.content'></div>
+      <div slot="reference" v-html='scope.row.content.substr(1,50)'></div>
+     </el-popover>
+     </template>
+     </el-table-column>
+   </el-table>
+   <!--分页区-->
 <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -58,9 +135,11 @@ import "/mock/index.js"
       :total="total">
 </el-pagination>
   </div>
+  </el-drawer>
+  </div>
 </el-drawer>
    </div>
-   <!-- <el-table 
+   <!-- <el-table
    :data="userlist"
     style="width: 100%"
    max-height="550">
@@ -135,12 +214,14 @@ export default {
         keyword: '',
         variety: 'ALL',
         pageNo: 1,
-        pageSize: 8
+        pageSize: 10
       },
       userlist: [],
+      Frequency: [],
       total: 0,
       drawer: false,
-      innerDrawer: false
+      innerDrawer: false,
+      disabled: false
     }
   },
   created () {
@@ -157,12 +238,17 @@ export default {
       console.log(this.queryInfo)
       // const { data: res } = await this.$http.get('http://43.251.224.187:8080', {
       //   params: this.queryInfo
-      // })
-      axios.get('/search/match/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+      // })fuzzy
+      axios.get('http://localhost:8080/search/match/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
         console.log(response.data)
         this.userlist = response.data.DocumentList
         this.total = response.data.TotalHits
       })
+      axios.get('http://localhost:8080/count/' + 'match' + '/' + keyword).then(response => {
+        console.log(response.data)
+        this.Frequency = response.data.Frequency
+      })
+
       /* axios.get('http://43.251.224.187:8080/search/match/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
         console.log(response.data)
       }) */
@@ -176,7 +262,7 @@ export default {
       this.getUserList()
     }
   }
-} 
+}
 </script>
 
 
