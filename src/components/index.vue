@@ -51,52 +51,52 @@
     align="center"
     >
     <!--统计数量-->
-    <el-table-column prop="all" label="所有" width="217" align="center">
+    <!-- <el-table-column prop="all" label="所有" width="217" align="center" value="all">
       <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true">{{scope.row.all}}</a>
+             <a href="#" @click="innerDrawer = true;varietyChangeAll()">{{scope.row.all}}</a>
            </div>
       </template> 
-    </el-table-column>
-    <el-table-column prop="mo" label="中国大陆" width="217" align="center">
+    </el-table-column> -->
+    <el-table-column prop="cn" label="中国大陆" width="255" align="center">
       <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true">{{scope.row.mo}}</a>
+             <a href="#" @click="innerDrawer = true;varietyChangeCn()">{{scope.row.cn}}</a>
            </div>
       </template> 
     </el-table-column>
-    <el-table-column prop="hk" label="中国香港" width="217" align="center">
+    <el-table-column prop="hk" label="中国香港" width="247" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true">{{scope.row.hk}}</a>
+             <a href="#" @click="innerDrawer = true;varietyChangeHk()">{{scope.row.hk}}</a>
            </div>
       </template> 
     </el-table-column>
-    <el-table-column prop="tw" label="中国澳门" width="217" align="center">
+    <el-table-column prop="mo" label="中国澳门" width="247" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true">{{scope.row.tw}}</a>
+             <a href="#" @click="innerDrawer = true;varietyChangeMo()">{{scope.row.mo}}</a>
            </div>
       </template> 
     </el-table-column>
-    <el-table-column prop="sg" label="中国台湾" width="217" align="center">
+    <el-table-column prop="tw" label="中国台湾" width="247" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true">{{scope.row.sg}}</a>
+             <a href="#" @click="innerDrawer = true;varietyChangeTw()">{{scope.row.tw}}</a>
            </div>
       </template> 
     </el-table-column>
-    <el-table-column prop="cn" label="新加坡" width="217" align="center">
+    <el-table-column prop="sg" label="新加坡" width="247" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true">{{scope.row.cn}}</a>
+             <a href="#" @click="innerDrawer = true;varietyChangeSg()">{{scope.row.sg}}</a>
            </div>
       </template> 
     </el-table-column>
-    <el-table-column prop="my" label="马来西亚" width="217" align="center">
+    <el-table-column prop="my" label="马来西亚" width="255" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true">{{scope.row.my}}</a>
+             <a href="#" @click="innerDrawer = true;varietyChangeMy()">{{scope.row.my}}</a>
            </div>
       </template> 
     </el-table-column>
@@ -211,7 +211,7 @@ export default {
       input3: '', // 获取搜索的值
       queryInfo: {
         keyword: '',
-        variety: 'ALL',
+        variety: '',
         pageNo: 1,
         pageSize: 10,
         select: ''
@@ -256,10 +256,42 @@ export default {
     },
     handleSizeChange(newSize) {
        console.log(newSize)
+       this.queryInfo.pageSize = newSize
+       this.getUserList()
     },
     handleCurrentChange(newPage) {
       console.log(newPage)
       this.queryInfo.pageNo = newPage
+      this.getUserList()
+    },
+    varietyChangeCn(){
+      // console.log(newVariety)
+      this.queryInfo.variety = 'cn';
+      this.getUserList()
+    },
+    varietyChangeHk(){
+      // console.log(newVariety)
+      this.queryInfo.variety = 'hk';
+      this.getUserList()
+    },
+    varietyChangeMo(){
+      // console.log(newVariety)
+      this.queryInfo.variety = 'mo';
+      this.getUserList()
+    },
+    varietyChangeTw(){
+      // console.log(newVariety)
+      this.queryInfo.variety = 'tw';
+      this.getUserList()
+    },
+    varietyChangeSg(){
+      // console.log(newVariety)
+      this.queryInfo.variety = 'sg';
+      this.getUserList()
+    },
+    varietyChangeMy(){
+      // console.log(newVariety)
+      this.queryInfo.variety = 'my';
       this.getUserList()
     }
   }

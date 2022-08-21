@@ -37,7 +37,6 @@ Mock.mock(/\/count/, 'get', function (option) {
   return Mock.mock({
     'Frequency|1-1':[
     {
-    all: '@natural(1, 100)',
     mo: '@natural(1, 100)',
     hk: '@natural(1, 100)',
     tw: '@natural(1, 100)',
