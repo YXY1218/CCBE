@@ -21,8 +21,8 @@
   <br>
   </div>
   <div class="search">
-  <el-input placeholder="请输入内容" v-model="queryInfo.keyword" class="input3">
-    <!-- 
+  <el-input placeholder="请输入内容" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
+    <!--
       <el-select v-model="queryInfo.variety" slot="prepend" placeholder="请选择">
       <el-option label="所有" value="ALL"></el-option>
       <el-option label="中国大陆" value="cn"></el-option>
@@ -31,15 +31,16 @@
       <el-option label="中国台湾" value="tw"></el-option>
       <el-option label="新加坡" value="sg"></el-option>
       <el-option label="马来西亚" value="my"></el-option>
-    </el-select> 
+    </el-select>
     -->
-    <el-select v-model="queryInfo.select" slot="prepend" placeholder="请选择">
-      <el-option label="精确查询" value="match"></el-option>
-      <el-option label="模糊查询" value="fuzzy"></el-option>
-    </el-select> 
-    <el-button slot="append" icon="el-icon-search" @click="drawer = true; getUserList ()" target="_blank"></el-button>
+    <el-select v-model="queryInfo.select" slot="prepend" placeholder="请选择" >
+<!--      <el-option label="精确查询" value="match"></el-option>-->
+<!--      <el-option label="模糊查询" value="fuzzy"></el-option>-->
+      <el-option v-for="item in selectList" :key="item.key" :label="item.label" :value="item.value"/>
+    </el-select>
+    <el-button slot="append" icon="el-icon-search" @click="drawer = true; matchCount()" target="_blank"></el-button>
   </el-input>
-  
+
 <el-drawer
   title="统计数量"
   :visible.sync="drawer"
@@ -51,54 +52,54 @@
     align="center"
     >
     <!--统计数量-->
-    <!-- <el-table-column prop="all" label="所有" width="217" align="center" value="all">
+     <el-table-column label="所有" width="217" align="center" value="all">
       <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true;varietyChangeAll()">{{scope.row.all}}</a>
+             <a href="#" @click="innerDrawer = true;pageSearch ('ALL')">{{scope.row.cn+scope.row.hk+scope.row.mo+scope.row.my+scope.row.tw+scope.row.sg}}</a>
            </div>
-      </template> 
-    </el-table-column> -->
+      </template>
+    </el-table-column>
     <el-table-column prop="cn" label="中国大陆" width="255" align="center">
       <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true;varietyChangeCn()">{{scope.row.cn}}</a>
+             <a href="#" @click="innerDrawer = true;pageSearch ('cn')">{{scope.row.cn}}</a>
            </div>
-      </template> 
+      </template>
     </el-table-column>
     <el-table-column prop="hk" label="中国香港" width="247" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true;varietyChangeHk()">{{scope.row.hk}}</a>
+             <a href="#" @click="innerDrawer = true;pageSearch ('hk')">{{scope.row.hk}}</a>
            </div>
-      </template> 
+      </template>
     </el-table-column>
     <el-table-column prop="mo" label="中国澳门" width="247" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true;varietyChangeMo()">{{scope.row.mo}}</a>
+             <a href="#" @click="innerDrawer = true;pageSearch ('mo')">{{scope.row.mo}}</a>
            </div>
-      </template> 
+      </template>
     </el-table-column>
     <el-table-column prop="tw" label="中国台湾" width="247" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true;varietyChangeTw()">{{scope.row.tw}}</a>
+             <a href="#" @click="innerDrawer = true;pageSearch ('tw')">{{scope.row.tw}}</a>
            </div>
-      </template> 
+      </template>
     </el-table-column>
     <el-table-column prop="sg" label="新加坡" width="247" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true;varietyChangeSg()">{{scope.row.sg}}</a>
+             <a href="#" @click="innerDrawer = true;pageSearch ('sg')">{{scope.row.sg}}</a>
            </div>
-      </template> 
+      </template>
     </el-table-column>
     <el-table-column prop="my" label="马来西亚" width="255" align="center">
             <template slot-scope="scope">
            <div>
-             <a href="#" @click="innerDrawer = true;varietyChangeMy()">{{scope.row.my}}</a>
+             <a href="#" @click="innerDrawer = true;pageSearch ('my')">{{scope.row.my}}</a>
            </div>
-      </template> 
+      </template>
     </el-table-column>
   </el-table>
 
@@ -107,22 +108,29 @@
   size="100%">
   <div>
    <el-table
-   :data="userlist"
+   :data="documentList"
     style="width: 100%"
    max-height="500"
    stripe>
-     <el-table-column type="index"></el-table-column>
-     <el-table-column label="查询范围" prop="variety"></el-table-column>
-     <el-table-column label="文本地址" prop="url"></el-table-column>
-     <el-table-column label="文本内容" prop="content" fit="false" >
+<!--     <el-table-column type="index"></el-table-column>-->
+     <el-table-column label="查询范围" prop="variety" min-width="3%" ></el-table-column>
+     <el-table-column label="类型" prop="genre" min-width="3%"></el-table-column>
+     <el-table-column label="文本地址" prop="domain" min-width="10%">
+       <template slot-scope="scope">
+         <a :href="scope.row.url" target="_blank" class="buttonText">{{scope.row.domain}}</a>
+       </template>
+     </el-table-column>
+     <el-table-column label="单词数" prop="words" min-width="4%"></el-table-column>
+     <el-table-column label="标题" prop="title" min-width="20%"></el-table-column>
+     <el-table-column label="文本内容" prop="content" fit="false" min-width="60%">
        <template slot-scope="scope">
        <!--<div v-html='scope.row.content'></div>-->
        <!--设置本列多余数据隐藏显示及高亮-->
-     <el-popover placement="top-start" width="400" trigger="hover">
-      <div v-html='scope.row.content'></div>
-      <div slot="reference" v-html='scope.row.content.substr(1,50)'></div>
-     </el-popover>
-     </template>
+         <el-popover placement="top-start" width="800" trigger="hover">
+          <div style="height:300px;overflow-y:auto" v-html='scope.row.content'></div>
+          <div slot="reference" v-html='scope.row.content.substr(0,300)'></div>
+         </el-popover>
+        </template>
      </el-table-column>
    </el-table>
    <!--分页区-->
@@ -131,6 +139,7 @@
       @current-change="handleCurrentChange"
       :current-page.sync="queryInfo.pageNo"
       :page-size="queryInfo.pageSize"
+      :page-count="pagenum"
       layout="prev, pager, next, jumper"
       :total="total">
 </el-pagination>
@@ -216,8 +225,10 @@ export default {
         pageSize: 10,
         select: ''
       },
-      userlist: [],
+      selectList:[{ value:'match', label:'精确查询' }, { value:'fuzzy', label:'模糊查询' }],
+      documentList: [],
       Frequency: [],
+      pagenum:1,
       total: 0,
       drawer: false,
       innerDrawer: false,
@@ -225,75 +236,45 @@ export default {
     }
   },
   created () {
-    this.getUserList()
+    this.queryInfo.select = this.selectList[0].value
+    // this.matchCount()
+    // this.pageSearch()
   },
   methods: {
-    async getUserList () {
-      // window.open('./searchWeb.vue')
+    async matchCount () {
       const keyword = this.queryInfo.keyword
-      const variety = this.queryInfo.variety
+      const select = this.queryInfo.select
+
+      console.log('select:' + this.queryInfo.select)
+      axios.get('http://localhost:8080/count/' + select + '/' + keyword).then(response => {
+        console.log(response.data)
+        this.Frequency = [response.data]
+      })
+    },
+    pageSearch (variety) {
+      // window.open('./searchWeb.vue')
+      this.pagenum = this.Frequency[0].variety / this.queryInfo.pageSize + 1
+      const keyword = this.queryInfo.keyword
+      this.queryInfo.variety = variety
       const pageNo = this.queryInfo.pageNo
       const pageSize = this.queryInfo.pageSize
       const select = this.queryInfo.select
-      console.log(this.input3)
-      console.log(this.queryInfo)
-      // const { data: res } = await this.$http.get('http://43.251.224.187:8080', {
-      //   params: this.queryInfo
-      // })fuzzy
+      console.log(this.pagenum)
       axios.get('http://localhost:8080/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
         console.log(response.data)
-        this.userlist = response.data.DocumentList
+        this.documentList = response.data.DocumentList
         this.total = response.data.TotalHits
       })
-      axios.get('http://localhost:8080/count/' + select + '/' + keyword).then(response => {
-        console.log(response.data)
-        this.Frequency = response.data.Frequency
-      })
-
-      /* axios.get('http://43.251.224.187:8080/search/match/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
-        console.log(response.data)
-      }) */
     },
     handleSizeChange(newSize) {
-       console.log(newSize)
        this.queryInfo.pageSize = newSize
-       this.getUserList()
+       this.pageSearch(this.queryInfo.variety)
     },
     handleCurrentChange(newPage) {
-      console.log(newPage)
       this.queryInfo.pageNo = newPage
-      this.getUserList()
-    },
-    varietyChangeCn(){
-      // console.log(newVariety)
-      this.queryInfo.variety = 'cn';
-      this.getUserList()
-    },
-    varietyChangeHk(){
-      // console.log(newVariety)
-      this.queryInfo.variety = 'hk';
-      this.getUserList()
-    },
-    varietyChangeMo(){
-      // console.log(newVariety)
-      this.queryInfo.variety = 'mo';
-      this.getUserList()
-    },
-    varietyChangeTw(){
-      // console.log(newVariety)
-      this.queryInfo.variety = 'tw';
-      this.getUserList()
-    },
-    varietyChangeSg(){
-      // console.log(newVariety)
-      this.queryInfo.variety = 'sg';
-      this.getUserList()
-    },
-    varietyChangeMy(){
-      // console.log(newVariety)
-      this.queryInfo.variety = 'my';
-      this.getUserList()
+      this.pageSearch(this.queryInfo.variety)
     }
+
   }
 }
 </script>

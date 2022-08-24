@@ -12,40 +12,36 @@ Mock.XHR.prototype.send = function () {
   this.proxy_send(...arguments)
 }
 
-Mock.mock(/\/search/, 'get', function (option) {
-  return Mock.mock({
-    TotalHits: '@natural(1, 100)',
-    'DocumentList|10': [
-      {
-        content: '@paragraph',
-        url: '@url',
-        genre: '@character',
-        'variety|1': [
-          'hk',
-          'cn',
-          'tw'
-        ],
-        textID: '@natural(1, 100)',
-        words: '@natural(1, 1000)',
-        domain: '@url',
-        title: '@word'
-      }
-    ]
-  })
-})
-Mock.mock(/\/count/, 'get', function (option) {
-  return Mock.mock({
-    'Frequency|1-1':[
-    {
-    mo: '@natural(1, 100)',
-    hk: '@natural(1, 100)',
-    tw: '@natural(1, 100)',
-    sg: '@natural(1, 100)',
-    cn: '@natural(1, 100)',
-    my: '@natural(1, 100)'
-    }
-    ]
-  })
-})
+// Mock.mock(/\/search/, 'get', function (option) {
+//   return Mock.mock({
+//     TotalHits: '@natural(1, 100)',
+//     'DocumentList|10': [
+//       {
+//         content: '@paragraph',
+//         url: '@url',
+//         genre: '@character',
+//         'variety|1': [
+//           'hk',
+//           'cn',
+//           'tw'
+//         ],
+//         textID: '@natural(1, 100)',
+//         words: '@natural(1, 1000)',
+//         domain: '@url',
+//         title: '@word'
+//       }
+//     ]
+//   })
+// })
+// Mock.mock(/\/count/, 'get', function (option) {
+//   return Mock.mock({
+//     mo: '@natural(1, 100)',
+//     hk: '@natural(1, 100)',
+//     tw: '@natural(1, 100)',
+//     sg: '@natural(1, 100)',
+//     cn: '@natural(1, 100)',
+//     my: '@natural(1, 100)'
+//   })
+// })
 
 export default Mock
