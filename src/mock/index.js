@@ -35,16 +35,12 @@ Mock.mock(/\/search/, 'get', function (option) {
 })
 Mock.mock(/\/count/, 'get', function (option) {
   return Mock.mock({
-    'Frequency|1-1':[
-    {
     mo: '@natural(1, 100)',
     hk: '@natural(1, 100)',
     tw: '@natural(1, 100)',
     sg: '@natural(1, 100)',
     cn: '@natural(1, 100)',
     my: '@natural(1, 100)'
-    }
-    ]
   })
 })
 
