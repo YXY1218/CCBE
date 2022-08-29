@@ -4,8 +4,8 @@
    <!--头部区域-->
   <el-header>
       <div>
-        <img src="#" alt="logo">
-        <span>网站名称</span>
+        <img src="#" alt="">
+        <span><el-button round>Corpus of Chinese-based Englishes(COCE)</el-button></span>
       </div>
       <div >
       <el-button type="info" @click="login">登录</el-button>
@@ -17,11 +17,14 @@
   <el-main>
     <div class="main">
     <div class="img">
-    <img src="./title.jpg" style="max-width: 545px;" class="img-responsive center-block" alt="全球中国英语共同体" title="全球中国英语共同体">
-  <br>
+    <img src="./title.jpg" style="max-width: 545px;" class="img-responsive center-block" alt="COCE" title="Corpus of Chinese-based Englishes">
   </div>
   <div class="search">
+<<<<<<< HEAD
   <el-input placeholder="请输入内容" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
+=======
+  <el-input placeholder="Please enter the content" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
+>>>>>>> 6af87f1 (Signed-off-by: yuu)
     <!--
       <el-select v-model="queryInfo.variety" slot="prepend" placeholder="请选择">
       <el-option label="所有" value="ALL"></el-option>
@@ -42,7 +45,7 @@
   </el-input>
 
 <el-drawer
-  title="统计数量"
+  title="Frequency"
   :visible.sync="drawer"
   size="100%">
   <div>
@@ -52,49 +55,57 @@
     align="center"
     >
     <!--统计数量-->
+<<<<<<< HEAD
      <el-table-column label="所有" width="217" align="center" value="all">
+=======
+     <el-table-column label="All" width="170" align="center" value="all">
+>>>>>>> 6af87f1 (Signed-off-by: yuu)
       <template slot-scope="scope">
            <div>
              <a href="#" @click="innerDrawer = true;pageSearch ('ALL')">{{scope.row.cn+scope.row.hk+scope.row.mo+scope.row.my+scope.row.tw+scope.row.sg}}</a>
            </div>
       </template>
     </el-table-column>
+<<<<<<< HEAD
     <el-table-column prop="cn" label="中国大陆" width="255" align="center">
+=======
+    <el-table-column prop="cn" label="Mainland" width="200" align="center">
+>>>>>>> 6af87f1 (Signed-off-by: yuu)
       <template slot-scope="scope">
            <div>
              <a href="#" @click="innerDrawer = true;pageSearch ('cn')">{{scope.row.cn}}</a>
            </div>
       </template>
     </el-table-column>
-    <el-table-column prop="hk" label="中国香港" width="247" align="center">
+    <el-table-column prop="hk" label="Hong Kong" width="200" align="center">
             <template slot-scope="scope">
            <div>
              <a href="#" @click="innerDrawer = true;pageSearch ('hk')">{{scope.row.hk}}</a>
            </div>
       </template>
     </el-table-column>
-    <el-table-column prop="mo" label="中国澳门" width="247" align="center">
+    <el-table-column prop="mo" label="Macao" width="200" align="center">
             <template slot-scope="scope">
            <div>
              <a href="#" @click="innerDrawer = true;pageSearch ('mo')">{{scope.row.mo}}</a>
            </div>
       </template>
     </el-table-column>
-    <el-table-column prop="tw" label="中国台湾" width="247" align="center">
+    <el-table-column prop="tw" label="Taiwan" width="200" align="center">
             <template slot-scope="scope">
            <div>
              <a href="#" @click="innerDrawer = true;pageSearch ('tw')">{{scope.row.tw}}</a>
            </div>
       </template>
     </el-table-column>
-    <el-table-column prop="sg" label="新加坡" width="247" align="center">
+    <el-table-column prop="sg" label="Singapore" width="200" align="center">
             <template slot-scope="scope">
            <div>
              <a href="#" @click="innerDrawer = true;pageSearch ('sg')">{{scope.row.sg}}</a>
            </div>
       </template>
     </el-table-column>
-    <el-table-column prop="my" label="马来西亚" width="255" align="center">
+    <el-table-column prop="my" label="Malaysia" width="200" align="center">
             <template slot-scope="scope">
            <div>
              <a href="#" @click="innerDrawer = true;pageSearch ('my')">{{scope.row.my}}</a>
@@ -170,30 +181,68 @@
           </div>
         </el-col>
         <el-col :span="6">
-          <div class="item item-apps" style="width: 32%">
+          <div class="item item-apps" style="width: 40%">
           <dl>
-            <dt>简介</dt>
-            <dd><el-link href="#" type="info">此网站</el-link></dd>
-            <dd><el-link href="#" type="info">关于我们</el-link></dd>
-            <dd><el-link href="#" type="info">友情链接</el-link></dd>
-            <dd><el-link href="#" type="info">联系我们</el-link></dd>
+            <dt>INFORMATION</dt>
+            <dd><el-link href="#" type="info">About us</el-link></dd>
+            <!--友情链接-->
+            <dd>
+              <el-link @click="dialogVisible = true" type="info">Some Links</el-link>
+              <el-dialog
+                title="Some Links"
+               :visible.sync="dialogVisible"
+                width="50%"
+                :before-close="handleClose">
+                <span>
+                  <dd>
+                    <a href="https://www.english-corpora.org/glowbe/">1.The corpus of Global Web-based English</a>
+                  </dd>
+                  <dd>
+                    <a href="https://www.english-corpora.org/coca/">2.The Corpus of Contemporary American English</a>
+                  </dd>
+                </span>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogVisible = false">取 消</el-button>
+                  <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+              </span>
+             </el-dialog>
+            </dd>
+            <!--联系我们-->
+            <dd>
+              <el-link @click="dialogVisible2 = true" type="info">Contact us</el-link>
+              <el-dialog
+                title="Contact us"
+               :visible.sync="dialogVisible2"
+                width="50%"
+                :before-close="handleClose">
+                <span>
+                </span>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogVisible2 = false">取 消</el-button>
+                  <el-button type="primary" @click="dialogVisible2 = false">确 定</el-button>
+              </span>
+             </el-dialog>
+            </dd>
           </dl>
         </div>
         </el-col>
         <el-col :span="6">
-          <div class="item item-apps" style="width: 32%">
+          <div class="item item-apps" style="width: 65%">
           <dl>
-            <dt>帮助</dt>
-            <dd><el-link href="#" type="info">功能介绍</el-link></dd>
-            <dd><el-link href="#" type="info">检索示例</el-link></dd>
-            <dd><el-link href="#" type="info">检索说明</el-link></dd>
+            <dt>HELP</dt>
+            <!--功能介绍-->
+            <dd><el-link href="#" type="info">Function introduction</el-link></dd>
+            <!--检索示例-->
+            <dd><el-link href="#" type="info">Search Examples</el-link></dd>
+            <!--检索说明-->
+            <dd><el-link href="#" type="info">Search Description</el-link></dd>
           </dl>
          </div>
         </el-col>
         <el-col :span="6">
           <div class="item item-apps" style="width: 32%">
           <dl>
-            <dt>微信</dt>
+            <dt>WeChat</dt>
               <a class="thumbnail" style="border:1px solid #FFF;">
                 <img src="#" width="115">
               </a>
@@ -225,14 +274,20 @@ export default {
         pageSize: 10,
         select: ''
       },
+<<<<<<< HEAD
       selectList:[{ value:'match', label:'精确查询' }, { value:'fuzzy', label:'模糊查询' }],
+=======
+      selectList:[{ value:'match', label:'Match' }, { value:'fuzzy', label:'Fuzzy' }],
+>>>>>>> 6af87f1 (Signed-off-by: yuu)
       documentList: [],
       Frequency: [],
       pagenum:1,
       total: 0,
       drawer: false,
       innerDrawer: false,
-      disabled: false
+      disabled: false,
+      dialogVisible: false,
+      dialogVisible2: false
     }
   },
   created () {
@@ -273,8 +328,19 @@ export default {
     handleCurrentChange(newPage) {
       this.queryInfo.pageNo = newPage
       this.pageSearch(this.queryInfo.variety)
+<<<<<<< HEAD
     }
 
+=======
+    },
+    handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      }
+>>>>>>> 6af87f1 (Signed-off-by: yuu)
   }
 }
 </script>
