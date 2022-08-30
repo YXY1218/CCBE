@@ -104,6 +104,7 @@
 
   <el-drawer
   :visible.sync="innerDrawer"
+  append-to-body = true
   size="100%">
   <div>
    <el-table
@@ -159,93 +160,89 @@
    </div>
   </el-main>
   <!--尾部区-->
-  <el-footer>
-    <el-card class="box-card">
-      <el-row :gutter="20">
-        <el-col :span="6">
-          <div class="copyright">
-           <div class="copy-side">北京科技大学
+   <el-footer>
+     <el-card class="box-card">
+       <el-row :gutter="20">
+         <el-col :span="6">
+           <div class="copyright">
+             <div class="copy-side">北京科技大学
+             </div>
            </div>
-          </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="item item-apps" style="width: 40%">
-          <dl>
-            <dt>INFORMATION</dt>
-            <dd><el-link href="#" type="info">About us</el-link></dd>
-            <!--友情链接-->
-            <dd>
-              <el-link @click="dialogVisible = true" type="info">Some Links</el-link>
-              <el-dialog
-                title="Some Links"
-               :visible.sync="dialogVisible"
-                width="50%"
-                :before-close="handleClose">
+         </el-col>
+         <el-col :span="6">
+           <div class="item item-apps" style="width: 40%">
+             <dl>
+               <dt>INFORMATION</dt>
+               <dd><el-link href="#" type="info">About us</el-link></dd>
+               <!--友情链接-->
+               <dd>
+                 <el-link @click="dialogVisible = true" type="info">Some Links</el-link>
+                 <el-dialog
+                   title="Some Links"
+                   :visible.sync="dialogVisible"
+                   width="50%"
+                   :before-close="handleClose">
                 <span>
-                  <dd>
                     <a href="https://www.english-corpora.org/glowbe/">1.The corpus of Global Web-based English</a>
-                  </dd>
-                  <dd>
                     <a href="https://www.english-corpora.org/coca/">2.The Corpus of Contemporary American English</a>
-                  </dd>
                 </span>
-                <span slot="footer" class="dialog-footer">
+                   <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogVisible = false">取 消</el-button>
                   <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-              </span>
-             </el-dialog>
-            </dd>
-            <!--联系我们-->
-            <dd>
-              <el-link @click="dialogVisible2 = true" type="info">Contact us</el-link>
-              <el-dialog
-                title="Contact us"
-               :visible.sync="dialogVisible2"
-                width="50%"
-                :before-close="handleClose">
+                </span>
+                 </el-dialog>
+               </dd>
+               <!--联系我们-->
+               <dd>
+                 <el-link @click="dialogVisible2 = true" type="info">Contact us</el-link>
+                 <el-dialog
+                   title="Contact us"
+                   :visible.sync="dialogVisible2"
+                   width="50%"
+                   :before-close="handleClose">
                 <span>
                 </span>
-                <span slot="footer" class="dialog-footer">
+                   <span slot="footer" class="dialog-footer">
                   <el-button @click="dialogVisible2 = false">取 消</el-button>
                   <el-button type="primary" @click="dialogVisible2 = false">确 定</el-button>
               </span>
-             </el-dialog>
-            </dd>
-          </dl>
-        </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="item item-apps" style="width: 65%">
-          <dl>
-            <dt>HELP</dt>
-            <!--功能介绍-->
-            <dd><el-link href="#" type="info">Function introduction</el-link></dd>
-            <!--检索示例-->
-            <dd><el-link href="#" type="info">Search Examples</el-link></dd>
-            <!--检索说明-->
-            <dd><el-link href="#" type="info">Search Description</el-link></dd>
-          </dl>
-         </div>
-        </el-col>
-        <el-col :span="6">
-          <div class="item item-apps" style="width: 32%">
-          <dl>
-            <dt>WeChat</dt>
-              <a class="thumbnail" style="border:1px solid #FFF;">
-                <img src="#" width="115">
-              </a>
-            </dl>
-         </div>
-        </el-col>
-      </el-row>
-    </el-card>
-  <div class="footer">
-   <div class="footer2">
-        <p>Powered by <a href="http://www.bootcss.com/">Bootstrap</a>.</p>
-        <p><a href="https://www.ustb.edu.cn/">北京科技大学</a></p>
-  </div>
-  </div>
-  </el-footer>
+                 </el-dialog>
+               </dd>
+             </dl>
+           </div>
+         </el-col>
+         <el-col :span="6">
+           <div class="item item-apps" style="width: 65%">
+             <dl>
+               <dt>HELP</dt>
+               <!--功能介绍-->
+               <dd><el-link href="#" type="info">Function introduction</el-link></dd>
+               <!--检索示例-->
+               <dd><el-link href="#" type="info">Search Examples</el-link></dd>
+               <!--检索说明-->
+               <dd><el-link href="#" type="info">Search Description</el-link></dd>
+             </dl>
+           </div>
+         </el-col>
+         <el-col :span="6">
+           <div class="item item-apps" style="width: 32%">
+             <dl>
+               <dt>WeChat</dt>
+               <a class="thumbnail" style="border:1px solid #FFF;">
+                 <img src="#" width="115">
+               </a>
+             </dl>
+           </div>
+         </el-col>
+       </el-row>
+     </el-card>
+     <div class="footer">
+       <div class="footer2">
+         <p>Powered by <a href="http://www.bootcss.com/">Bootstrap</a>.</p>
+         <p><a href="https://www.ustb.edu.cn/">北京科技大学</a></p>
+       </div>
+     </div>
+   </el-footer>
 </el-container>
 </template>
 
@@ -292,7 +289,7 @@ export default {
     },
     pageSearch (variety) {
       // window.open('./searchWeb.vue')
-      
+
       const keyword = this.queryInfo.keyword
       this.queryInfo.variety = variety
       const pageNo = this.queryInfo.pageNo
