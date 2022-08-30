@@ -292,7 +292,7 @@ export default {
     },
     pageSearch (variety) {
       // window.open('./searchWeb.vue')
-      this.pagenum = this.Frequency[0].variety / this.queryInfo.pageSize + 1
+      
       const keyword = this.queryInfo.keyword
       this.queryInfo.variety = variety
       const pageNo = this.queryInfo.pageNo
@@ -304,6 +304,7 @@ export default {
         this.documentList = response.data.DocumentList
         this.total = response.data.TotalHits
       })
+      this.pagenum = this.total / this.queryInfo.pageSize
     },
     handleSizeChange(newSize) {
        this.queryInfo.pageSize = newSize
