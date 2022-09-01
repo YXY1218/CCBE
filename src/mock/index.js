@@ -44,6 +44,7 @@ Mock.XHR.prototype.send = function () {
 //   })
 // })
 
+<<<<<<< HEAD
 Mock.mock(/\/search/, 'get', function (option) {
   return Mock.mock({
     TotalHits: '@natural(1, 100)',
@@ -75,4 +76,6 @@ Mock.mock(/\/count/, 'get', function (option) {
     my: '@natural(1, 100)'
   })
 })
+=======
+>>>>>>> 8d005a399d529b54bb254cc443a10bc4f2c585bc
 export default Mock

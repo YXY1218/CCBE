@@ -1,6 +1,10 @@
 import Vue from 'vue'
 import
+<<<<<<< HEAD
 { Button, Form, FormItem, Input, Message, Container, Header, Aside, Main, Footer, Row, Col, Divider, Card, Tabs, link, Select, Option, Table, TableColumn, MenuItem, Submenu, menu, Pagination, Step, Steps, Drawer, Tooltip, Popover, Dialog, Image } from 'element-ui'
+=======
+{ Button, Form, FormItem, Input, Message, Container, Header, Aside, Main, Footer, Row, Col, Divider, Card, Tabs, link, Select, Option, Table, TableColumn, MenuItem, Submenu, menu, Pagination, Step, Steps, Drawer, Tooltip, Popover, Dialog } from 'element-ui'
+>>>>>>> 8d005a399d529b54bb254cc443a10bc4f2c585bc
 
 Vue.use(Button)
 Vue.use(Form)
@@ -32,5 +36,8 @@ Vue.use(Drawer)
 Vue.use(Tooltip)
 Vue.use(Popover)
 Vue.use(Dialog)
+<<<<<<< HEAD
 Vue.use(Image)
+=======
+>>>>>>> 8d005a399d529b54bb254cc443a10bc4f2c585bc
 Vue.prototype.$message = Message
