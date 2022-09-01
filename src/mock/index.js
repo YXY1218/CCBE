@@ -12,7 +12,6 @@ Mock.XHR.prototype.send = function () {
   this.proxy_send(...arguments)
 }
 
-<<<<<<< HEAD
 // Mock.mock(/\/search/, 'get', function (option) {
 //   return Mock.mock({
 //     TotalHits: '@natural(1, 100)',
@@ -44,7 +43,7 @@ Mock.XHR.prototype.send = function () {
 //     my: '@natural(1, 100)'
 //   })
 // })
-=======
+
 Mock.mock(/\/search/, 'get', function (option) {
   return Mock.mock({
     TotalHits: '@natural(1, 100)',
@@ -76,6 +75,4 @@ Mock.mock(/\/count/, 'get', function (option) {
     my: '@natural(1, 100)'
   })
 })
->>>>>>> 6af87f1 (Signed-off-by: yuu)
-
 export default Mock
