@@ -19,7 +19,7 @@
      <!--<div class="img">
      <img src="./title.jpg" style="max-width: 745px;" class="img-responsive center-block" alt="COCE" title="Corpus of Chinese-based Englishes">
    </div>-->
-   <h1 id="community_hero_heading" style="max-width: 745px; font-size: 40px; ">Welcome to the<br>Corpus of Chinese-based Englishes!</h1>
+   <h1 class="heading" style="max-width: 745px;font-size: 45px; ">Corpus of Chinese-based Englishes</h1>
    <div class="search">
     
    <el-input style="box-shadow: darkgrey 0px 0px 15px 5px;" placeholder="Please enter the content" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
@@ -369,6 +369,7 @@
  </script>
 
 <style lang="less" scoped>
+  @import "./font-style/font.css";
   .home-container {
     height: 100%;
   }
@@ -383,6 +384,9 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
   }
   .el-main {
+    .main>.heading{
+      font-family: 'Abril Fatface', cursive;
+    }
     >.img>img{
       display:block;
       margin:0 auto;
