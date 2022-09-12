@@ -39,7 +39,7 @@
      </el-select>
      <el-button slot="append" icon="el-icon-search" @click="drawer = true; matchCount()" target="_blank"></el-button>
    </el-input>
- 
+
  <el-drawer
    title="Frequency"
    :visible.sync="drawer"
@@ -101,7 +101,7 @@
        </template>
      </el-table-column>
    </el-table>
- 
+
    <el-drawer
    :visible.sync="innerDrawer"
    append-to-body = true
@@ -267,14 +267,14 @@
       </el-card>
       <div class="footer">
         <div class="footer2">
-      
+
           <p><a href="https://www.ustb.edu.cn/">北京科技大学</a></p>
         </div>
       </div>
     </el-footer>
  </el-container>
  </template>
- 
+
  <script>
  const axios = require('axios')
  export default {
@@ -309,23 +309,23 @@
      async matchCount () {
        const keyword = this.queryInfo.keyword
        const select = this.queryInfo.select
- 
+
        console.log('select:' + this.queryInfo.select)
-       axios.get('http://localhost:8080/count/' + select + '/' + keyword).then(response => {
+       axios.get('/api/count/' + select + '/' + keyword).then(response => {
          console.log(response.data)
          this.Frequency = [response.data]
        })
      },
      pageSearch (variety) {
        // window.open('./searchWeb.vue')
- 
+
        const keyword = this.queryInfo.keyword
        this.queryInfo.variety = variety
        const pageNo = this.queryInfo.pageNo
        const pageSize = this.queryInfo.pageSize
        const select = this.queryInfo.select
        console.log(this.pagenum)
-       axios.get('http://localhost:8080/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+       axios.get('/api/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
          console.log(response.data)
          this.documentList = response.data.DocumentList
          this.total = response.data.TotalHits
@@ -350,8 +350,8 @@
    }
  }
  </script>
- 
- 
+
+
  <style lang="less" scoped>
  .home-container {
    height: 100%;
