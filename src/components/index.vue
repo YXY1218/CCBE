@@ -1,26 +1,28 @@
 <!--import "/mock/index.js"-->
 <template>
-  <el-container class="home-container">
+  <el-container class="home-container" style="background-color: #F5F5F5">
     <!--头部区域-->
    <el-header>
        <div>
          <img src="#" alt="">
-         <span><el-button round>Corpus of Chinese-based Englishes(CCE)</el-button></span>
+         <span><el-button round style="background: #F5F5F5">Corpus of Chinese-based Englishes(CCE)</el-button></span>
        </div>
        <div >
-       <el-button type="info" @click="login">登录</el-button>
+       <el-button round @click="login">Sign in</el-button>
        <!--<el-button type="info" @click="login" style="float: right">注册</el-button>-->
-       <el-button type="info" @click="help" style="margin-right:10px">帮助</el-button>
+       <!--<el-button type="info" @click="help" style="margin-right:10px">帮助</el-button>-->
        </div>
    </el-header>
    <!--页面主体区-->
-   <el-main>
-     <div class="main">
-     <div class="img">
+   <el-main style="height:200px">
+  <div class="main">
+     <!--<div class="img">
      <img src="./title.jpg" style="max-width: 745px;" class="img-responsive center-block" alt="COCE" title="Corpus of Chinese-based Englishes">
-   </div>
+   </div>-->
+   <h1 id="community_hero_heading" style="max-width: 745px; font-size: 40px; ">Welcome to the<br>Corpus of Chinese-based Englishes!</h1>
    <div class="search">
-   <el-input placeholder="Please enter the content" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
+    
+   <el-input style="box-shadow: darkgrey 0px 0px 15px 5px;" placeholder="Please enter the content" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
      <!--
        <el-select v-model="queryInfo.variety" slot="prepend" placeholder="请选择">
        <el-option label="所有" value="ALL"></el-option>
@@ -39,7 +41,7 @@
      </el-select>
      <el-button slot="append" icon="el-icon-search" @click="drawer = true; matchCount()" target="_blank"></el-button>
    </el-input>
-
+    
  <el-drawer
    title="Frequency"
    :visible.sync="drawer"
@@ -54,54 +56,54 @@
       <el-table-column label="All" width="170" align="center" value="all">
        <template slot-scope="scope">
             <div>
-              <a href="#" @click="innerDrawer = true;pageSearch ('ALL')">{{scope.row.cn+scope.row.hk+scope.row.mo+scope.row.my+scope.row.tw+scope.row.sg}}</a>
+              <el-link @click="innerDrawer = true;pageSearch ('ALL')">{{scope.row.cn+scope.row.hk+scope.row.mo+scope.row.my+scope.row.tw+scope.row.sg}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="cn" label="Mainland" width="200" align="center">
        <template slot-scope="scope">
             <div>
-              <a href="#" @click="innerDrawer = true;pageSearch ('cn')">{{scope.row.cn}}</a>
+              <el-link @click="innerDrawer = true;pageSearch ('cn')">{{scope.row.cn}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="hk" label="Hong Kong" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <a href="#" @click="innerDrawer = true;pageSearch ('hk')">{{scope.row.hk}}</a>
+              <el-link @click="innerDrawer = true;pageSearch ('hk')">{{scope.row.hk}}</el-link>
             </div>
        </template>
      </el-table-column>
-     <el-table-column prop="mo" label="Macao" width="200" align="center">
+     <el-table-column prop="mo" label="Macau" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <a href="#" @click="innerDrawer = true;pageSearch ('mo')">{{scope.row.mo}}</a>
+              <el-link @click="innerDrawer = true;pageSearch ('mo')">{{scope.row.mo}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="tw" label="Taiwan" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <a href="#" @click="innerDrawer = true;pageSearch ('tw')">{{scope.row.tw}}</a>
+              <el-link @click="innerDrawer = true;pageSearch ('tw')">{{scope.row.tw}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="sg" label="Singapore" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <a href="#" @click="innerDrawer = true;pageSearch ('sg')">{{scope.row.sg}}</a>
+              <el-link @click="innerDrawer = true;pageSearch ('sg')">{{scope.row.sg}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="my" label="Malaysia" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <a href="#" @click="innerDrawer = true;pageSearch ('my')">{{scope.row.my}}</a>
+              <el-link @click="innerDrawer = true;pageSearch ('my')">{{scope.row.my}}</el-link>
             </div>
        </template>
      </el-table-column>
    </el-table>
-
+ 
    <el-drawer
    :visible.sync="innerDrawer"
    append-to-body = true
@@ -157,19 +159,22 @@
       <el-table-column label="文本地址" prop="url"></el-table-column>
       <el-table-column label="文本内容" prop="content" fit="false"></el-table-column>
     </el-table> -->
+ 
     </div>
    </el-main>
    <!--尾部区-->
     <el-footer>
-      <el-card class="box-card">
-        <el-row :gutter="20">
-          <el-col :span="6">
+      <el-card class="box-card" style="height: 140px;">
+        <el-row :gutter="18">
+          
+          <el-col :span="2">
             <div class="copyright">
-              <div class="copy-side">北京科技大学
+              <div class="copy-side"> &nbsp;
               </div>
             </div>
           </el-col>
-          <el-col :span="6">
+        
+          <el-col :span="8">
             <div class="item item-apps" style="width: 40%">
               <dl>
                 <dt>INFORMATION</dt>
@@ -200,7 +205,8 @@
                     title="Contact us"
                     :visible.sync="dialogVisible2"
                     width="50%"
-                    :before-close="handleClose">
+                    :before-close="handleClose"
+                    style="background-color: #F5F5F5">
                  <span>
                   <el-row type="flex" class="row-bg" justify="space-around" style="align: middle" >
                     <!--地址-->
@@ -240,7 +246,8 @@
               </dl>
             </div>
           </el-col>
-          <el-col :span="6">
+
+          <el-col :span="8">
             <div class="item item-apps" style="width: 65%">
               <dl>
                 <dt>HELP</dt>
@@ -253,12 +260,13 @@
               </dl>
             </div>
           </el-col>
+
           <el-col :span="6">
             <div class="item item-apps" style="width: 32%">
               <dl>
-                <dt>WeChat</dt>
+                <dt>More</dt>
                 <a class="thumbnail" style="border:1px solid #FFF;">
-                  <img src="#" width="115">
+                  <!--<img src="#" width="115">-->
                 </a>
               </dl>
             </div>
@@ -267,14 +275,13 @@
       </el-card>
       <div class="footer">
         <div class="footer2">
-
           <p><a href="https://www.ustb.edu.cn/">北京科技大学</a></p>
         </div>
       </div>
     </el-footer>
  </el-container>
  </template>
-
+ 
  <script>
  const axios = require('axios')
  export default {
@@ -297,7 +304,8 @@
        innerDrawer: false,
        disabled: false,
        dialogVisible: false,
-       dialogVisible2: false
+       dialogVisible2: false,
+       clientWidth: document.body.clientWidth
      }
    },
    created () {
@@ -309,23 +317,23 @@
      async matchCount () {
        const keyword = this.queryInfo.keyword
        const select = this.queryInfo.select
-
+ 
        console.log('select:' + this.queryInfo.select)
-       axios.get('/api/count/' + select + '/' + keyword).then(response => {
+       axios.get('http://localhost:8080/count/' + select + '/' + keyword).then(response => {
          console.log(response.data)
          this.Frequency = [response.data]
        })
      },
      pageSearch (variety) {
        // window.open('./searchWeb.vue')
-
+ 
        const keyword = this.queryInfo.keyword
        this.queryInfo.variety = variety
        const pageNo = this.queryInfo.pageNo
        const pageSize = this.queryInfo.pageSize
        const select = this.queryInfo.select
        console.log(this.pagenum)
-       axios.get('/api/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+       axios.get('http://localhost:8080/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
          console.log(response.data)
          this.documentList = response.data.DocumentList
          this.total = response.data.TotalHits
@@ -346,63 +354,101 @@
              done();
            })
            .catch(_ => {});
-       }
+       },
+       mounted() {
+    const that = this
+    window.onresize = () => {
+      return (() => {
+        window.screenHeight = document.body.clientHeight
+        that.clientHeight = window.screenHeight
+      })()
+    }
+  }
    }
  }
  </script>
 
-
- <style lang="less" scoped>
- .home-container {
-   height: 100%;
- }
- .el-header {
-   text-align: center;
-   background-color: #efebeb;
-   border-color: #813939;
-   display: flex;
-   justify-content: space-between;
-   padding-left: 5px;
-   align-items: center;
-   box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
- }
- .el-main {
-   >.img>img{
-     display:block;
-     margin:0 auto;
-   }
-   .search{
-     width: 100%;
-     display: block;
-     margin:0 auto;
-   }
-   display: flex;
-   height: 100%;
-   width: 100%;
-   line-height: 100px;
-   text-align: center;
-   >.main{
-     align-self: center;
-     margin: 0 auto;
-     text-align: center;
-   }
-   .el-select{
-     width: 130px;
-   }
-   .el-pagination {
-   margin-top: 15px;
- }
- }
- .el-footer {
-  >.footer{
+<style lang="less" scoped>
+  .home-container {
+    height: 100%;
+  }
+  .el-header {
+    text-align: center;
+    background-color: #b8cfd9;
+    border-color: #813939;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 5px;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+  }
+  .el-main {
+    >.img>img{
+      display:block;
+      margin:0 auto;
+    }
+    .search{
       width: 100%;
-      height: 100%;
-   }
-   >.footer>.footer2{
-     margin: 0 auto;
-     text-align: center;
-   }
-  .el-row {
+      display: block;
+      margin:0 auto;
+    }
+    display: flex;
+    height: 100%;
+    width: 100%;
+    line-height: 100px;
+    text-align: center;
+    >.main{
+      align-self: center;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .el-select{
+      width: 130px;
+    }
+    .el-pagination {
+    margin-top: 15px;
+  }
+  }
+  .el-footer {
+   >.footer{
+       width: 100%;
+       height: 100%;
+    }
+    >.footer>.footer2{
+      margin: 0 auto;
+      text-align: center;
+    }
+   .el-row {
+      margin-bottom: 20px;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .el-col {
+      border-radius: 4px;
+    }
+    .bg-purple-dark {
+      background: #99a9bf;
+    }
+    .bg-purple {
+      background: #d3dce6;
+      position: relative;
+    }
+    .bg-purple-light {
+      background: #F5F5F5;
+    }
+    .grid-content {
+      border-radius: 4px;
+      min-height: 36px;
+    }
+    .row-bg {
+      padding: 10px 0;
+      background-color: #F5F5F5;
+    }
+    >.box-card>.el-link {
+      type-style: solid;
+    }
+    .el-row {
      margin-bottom: 20px;
      &:last-child {
        margin-bottom: 0;
@@ -412,14 +458,15 @@
      border-radius: 4px;
    }
    .bg-purple-dark {
-     background: #99a9bf;
+     background: #f8f8f9;
    }
    .bg-purple {
-     background: #d3dce6;
-     position: relative;
+     background: #e3e9f1;
    }
    .bg-purple-light {
-     background: #e5e9f2;
+     background: #e3e9f1;
+     text-align: "center";
+     vertical-align: middle;
    }
    .grid-content {
      border-radius: 4px;
@@ -427,67 +474,37 @@
    }
    .row-bg {
      padding: 10px 0;
-     background-color: #f9fafc;
+     background-color: #ffffff;
    }
-   >.box-card>.el-link {
-     type-style: solid;
+   .bg-purple>.addressPic {
+     display:block;
+     padding-top: 10px;
+     padding-left: 37%;
    }
-   .el-row {
-    margin-bottom: 20px;
-    &:last-child {
-      margin-bottom: 0;
-    }
+   .addressTitle{
+     font-size: 20px;
+     padding-left: 25%;
+     color: #8e8a8a;
   }
-  .el-col {
-    border-radius: 4px;
+  .addressText{
+    padding-left: 13%;
   }
-  .bg-purple-dark {
-    background: #f8f8f9;
+  .addressText1{
+    padding-left: 16%;
   }
-  .bg-purple {
-    background: #e3e9f1;
+  .addressText2{
+    padding-left: 19%;
   }
-  .bg-purple-light {
-    background: #e3e9f1;
-    text-align: "center";
-    vertical-align: middle;
+  .mailPic{
+     display:block;
+     padding-top: 5px;
+     padding-left: 39%;
   }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
+  .telPic{
+     display:block;
+     padding-top: 5px;
+     padding-left: 39%;
   }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #ffffff;
   }
-  .bg-purple>.addressPic {
-    display:block;
-    padding-top: 10px;
-    padding-left: 37%;
-  }
-  .addressTitle{
-    font-size: 20px;
-    padding-left: 25%;
-    color: #8e8a8a;
- }
- .addressText{
-   padding-left: 13%;
- }
- .addressText1{
-   padding-left: 16%;
- }
- .addressText2{
-   padding-left: 19%;
- }
- .mailPic{
-    display:block;
-    padding-top: 5px;
-    padding-left: 39%;
- }
- .telPic{
-    display:block;
-    padding-top: 5px;
-    padding-left: 39%;
- }
- }
- </style>
+  </style>
+ 
