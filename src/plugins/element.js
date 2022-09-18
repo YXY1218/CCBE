@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import
 
-{ Button, Form, FormItem, Input, Message, Container, Header, Aside, Main, Footer, Row, Col, Divider, Card, Tabs, link, Select, Option, Table, TableColumn, MenuItem, Submenu, menu, Pagination, Step, Steps, Drawer, Tooltip, Popover, Dialog, Image } from 'element-ui'
+{ Button, Form, FormItem, Input, Message, Container, Header, Aside, Main, Footer, Row, Col, Divider, Card, Tabs, link, Select, Option, Table, TableColumn, MenuItem, Submenu, menu, Pagination, Step, Steps, Drawer, Tooltip, Popover, Dialog, Image, Descriptions, DescriptionsItem } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Form)
@@ -33,6 +33,8 @@ Vue.use(Drawer)
 Vue.use(Tooltip)
 Vue.use(Popover)
 Vue.use(Dialog)
+Vue.use(Descriptions)
+Vue.use(DescriptionsItem)
 
 Vue.use(Image)
 

@@ -112,19 +112,121 @@
     <el-table
     :data="documentList"
      style="width: 100%"
-    max-height="500"
+    max-height="580px"
     stripe>
  <!--     <el-table-column type="index"></el-table-column>-->
-      <el-table-column label="查询范围" prop="variety" min-width="3%" ></el-table-column>
-      <el-table-column label="类型" prop="genre" min-width="3%"></el-table-column>
-      <el-table-column label="文本地址" prop="domain" min-width="10%">
+ <el-table-column type="expand">
+      <template slot-scope="props">
+        <el-form label-position="middle" inline class="demo-table-expand">
+          <dd>
+          <el-row :gutter="20" style="margin-bottom: 5px;">
+            <el-col :span="3">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span solt="label">
+              <span style="color:black;"><strong>Variety</strong></span>
+            </span>
+              </div>
+            </el-col>
+            <el-col :span="18">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span>{{ props.row.variety}}</span>
+              </div>
+            </el-col>
+          </el-row>
+          </dd>
+
+          <dd>
+            <el-row :gutter="20" style="margin-bottom: 5px;">
+            <el-col :span="3">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span solt="label">
+              <span style="color:black;"><strong>Genre</strong></span>
+            </span>
+              </div>
+            </el-col>
+            <el-col :span="18">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span>{{ props.row.genre}}</span>
+              </div>
+            </el-col>
+          </el-row>
+          </dd>
+          <dd>
+            <el-row :gutter="20" style="margin-bottom: 5px;">
+            <el-col :span="3">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span solt="label">
+              <span style="color:black;"><strong>Source</strong></span>
+            </span>
+              </div>
+            </el-col>
+            <el-col :span="18">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span>{{ props.row.domain}}</span>
+              </div>
+            </el-col>
+          </el-row>
+          </dd>
+          <dd>
+            <el-row :gutter="20" style="margin-bottom: 5px;">
+            <el-col :span="3">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span solt="label">
+              <span style="color:black;"><strong>Words</strong></span>
+            </span>
+              </div>
+            </el-col>
+            <el-col :span="18">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span>{{ props.row.words}}</span>
+              </div>
+            </el-col>
+          </el-row>
+          </dd>
+          <dd>
+            <el-row :gutter="20" style="margin-bottom: 5px;">
+            <el-col :span="3">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span solt="label">
+              <span style="color:black;"><strong>Title</strong></span>
+            </span>
+              </div>
+            </el-col>
+            <el-col :span="18">
+              <div style="background-color:#DEE9F3">
+                &nbsp;
+            <span>{{ props.row.title}}</span>
+              </div>
+            </el-col>
+          </el-row>
+          </dd>
+          <!--<dd>
+          <el-form-item label="文本内容" style="margin-bottom:0px;margin-top: 0px;">
+            <span>{{ props.row.content }}</span>
+          </el-form-item>
+          </dd>-->
+        </el-form>
+      </template>
+    </el-table-column>
+      <el-table-column label="Variety" prop="variety" min-width="8%" ></el-table-column>
+      <el-table-column label="Genre" prop="genre" min-width="8%"></el-table-column>
+      <el-table-column label="Domain" prop="domain" min-width="14%">
         <template slot-scope="scope">
           <a :href="scope.row.url" target="_blank" class="buttonText">{{scope.row.domain}}</a>
         </template>
       </el-table-column>
-      <el-table-column label="单词数" prop="words" min-width="4%"></el-table-column>
-      <el-table-column label="标题" prop="title" min-width="20%"></el-table-column>
-      <el-table-column label="文本内容" prop="content" fit="false" min-width="60%">
+      <!--<el-table-column label="单词数" prop="words" min-width="4%"></el-table-column>-->
+      <el-table-column label="Title" prop="title" min-width="15%"></el-table-column>
+      <el-table-column label="Content" prop="content" fit="false" min-width="55%">
         <template slot-scope="scope">
         <!--<div v-html='scope.row.content'></div>-->
         <!--设置本列多余数据隐藏显示及高亮-->
@@ -135,6 +237,7 @@
          </template>
       </el-table-column>
     </el-table>
+  
     <!--分页区-->
  <el-pagination
        @size-change="handleSizeChange"
@@ -142,9 +245,11 @@
        :current-page.sync="queryInfo.pageNo"
        :page-size="queryInfo.pageSize"
        :page-count="pagenum"
-       layout="prev, pager, next, jumper"
+       layout="prev, pager, next"
        :total="total">
  </el-pagination>
+
+ 
    </div>
    </el-drawer>
    </div>
@@ -193,8 +298,8 @@
                      <a href="https://www.english-corpora.org/coca/">2.The Corpus of Contemporary American English</a>
                  </span>
                     <span slot="footer" class="dialog-footer">
-                   <el-button @click="dialogVisible = false">取 消</el-button>
-                   <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+                   <el-button @click="dialogVisible = false">Cancel</el-button>
+                   <el-button type="primary" @click="dialogVisible = false">OK</el-button>
                  </span>
                   </el-dialog>
                 </dd>
@@ -302,6 +407,7 @@
        total: 0,
        drawer: false,
        innerDrawer: false,
+       contextdrawer: false,
        disabled: false,
        dialogVisible: false,
        dialogVisible2: false,
@@ -319,7 +425,7 @@
        const select = this.queryInfo.select
  
        console.log('select:' + this.queryInfo.select)
-       axios.get('http://localhost:8080/count/' + select + '/' + keyword).then(response => {
+       axios.get('/api/count/' + select + '/' + keyword).then(response => {
          console.log(response.data)
          this.Frequency = [response.data]
        })
@@ -333,7 +439,7 @@
        const pageSize = this.queryInfo.pageSize
        const select = this.queryInfo.select
        console.log(this.pagenum)
-       axios.get('http://localhost:8080/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+       axios.get('/api/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
          console.log(response.data)
          this.documentList = response.data.DocumentList
          this.total = response.data.TotalHits
@@ -349,7 +455,7 @@
        this.pageSearch(this.queryInfo.variety)
      },
      handleClose(done) {
-         this.$confirm('确认关闭？')
+         this.$confirm('Colse？')
            .then(_ => {
              done();
            })
@@ -385,7 +491,7 @@
   }
   .el-main {
     .main>.heading{
-      font-family: 'Abril Fatface', cursive;
+      font-family: 'Lora-Regular', cursive;
     }
     >.img>img{
       display:block;
@@ -412,6 +518,8 @@
     .el-pagination {
     margin-top: 15px;
   }
+
+
   }
   .el-footer {
    >.footer{
