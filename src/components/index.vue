@@ -462,14 +462,22 @@
            .catch(_ => {});
        },
        mounted() {
-    const that = this
-    window.onresize = () => {
-      return (() => {
-        window.screenHeight = document.body.clientHeight
-        that.clientHeight = window.screenHeight
-      })()
-    }
-  }
+        const that = this
+        window.onresize = () => {
+          return (() => {
+            window.screenHeight = document.body.clientHeight
+            that.clientHeight = window.screenHeight
+          })()
+        }
+      },
+      // TODO: 
+      //   - Define a detailed page template firstly,
+      //   - Generate href for each table row,
+      //     which allows click behaviour triggering a detailed page correspondingly
+      //   - Bind new click behaviour to each table row element
+      generate_href_for_each_tbl_row() {
+
+      }
    }
  }
  </script>
@@ -481,7 +489,7 @@
   }
   .el-header {
     text-align: center;
-    background-color: #b8cfd9;
+    background-color: aliceblue;
     border-color: #813939;
     display: flex;
     justify-content: space-between;
@@ -489,6 +497,16 @@
     align-items: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
   }
+  .el-table {
+    position: inherit;
+    .el-table__header {
+      width: fit-content;
+    }
+    .el-table__body {
+      background-color: aliceblue;
+    }
+  }
+
   .el-main {
     .main>.heading{
       font-family: 'Lora-Regular', cursive;
