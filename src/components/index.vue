@@ -22,7 +22,7 @@
    <h1 class="heading" style="max-width: 1000px;font-size: 45px; ">Corpus of Chinese-based Englishes</h1>
    <div class="search">
     
-   <el-input style="box-shadow: darkgrey 0px 0px 15px 5px;" placeholder="Please enter the content" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
+   <el-input style="box-shadow: darkgrey 0px 0px 15px 5px;" placeholder="Please input a query" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
      <!--
        <el-select v-model="queryInfo.variety" slot="prepend" placeholder="请选择">
        <el-option label="所有" value="ALL"></el-option>
