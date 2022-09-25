@@ -19,7 +19,7 @@
      <!--<div class="img">
      <img src="./title.jpg" style="max-width: 745px;" class="img-responsive center-block" alt="COCE" title="Corpus of Chinese-based Englishes">
    </div>-->
-   <h1 class="heading" style="max-width: 745px;font-size: 45px; ">Corpus of Chinese-based Englishes</h1>
+   <h1 class="heading" style="max-width: 1000px;font-size: 45px; ">Corpus of Chinese-based Englishes</h1>
    <div class="search">
     
    <el-input style="box-shadow: darkgrey 0px 0px 15px 5px;" placeholder="Please enter the content" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
@@ -505,12 +505,14 @@
     display: flex;
     height: 100%;
     width: 100%;
+    flex: 0.70;
     line-height: 100px;
     text-align: center;
     >.main{
       align-self: center;
       margin: 0 auto;
       text-align: center;
+      padding-bottom: 50px;
     }
     .el-select{
       width: 130px;
@@ -518,10 +520,10 @@
     .el-pagination {
     margin-top: 15px;
   }
-
-
   }
+
   .el-footer {
+    height: 0px !important;
    >.footer{
        width: 100%;
        height: 100%;
