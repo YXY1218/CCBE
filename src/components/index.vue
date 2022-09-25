@@ -380,7 +380,7 @@
       </el-card>
       <div class="footer">
         <div class="footer2">
-          <p><a href="https://www.ustb.edu.cn/">北京科技大学</a></p>
+          <p><a href="https://www.ustb.edu.cn/">University of Science and Technology Beijing</a></p>  
         </div>
       </div>
     </el-footer>
