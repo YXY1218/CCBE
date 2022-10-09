@@ -113,9 +113,12 @@
     :data="documentList"
      style="width: 100%"
     max-height="580px"
+    :cell-class-name="tableCellClassName"
     stripe>
  <!--     <el-table-column type="index"></el-table-column>-->
- <el-table-column type="expand">
+ 
+
+ <!--<el-table-column type="expand">
       <template slot-scope="props">
         <el-form label-position="middle" inline class="demo-table-expand">
           <dd>
@@ -209,16 +212,16 @@
             </el-col>
           </el-row>
           </dd>
-          <!--<dd>
-          <el-form-item label="文本内容" style="margin-bottom:0px;margin-top: 0px;">
-            <span>{{ props.row.content }}</span>
-          </el-form-item>
-          </dd>-->
         </el-form>
       </template>
-    </el-table-column>
-      <el-table-column label="Variety" prop="variety" min-width="8%" ></el-table-column>
-      <el-table-column label="Genre" prop="genre" min-width="8%"></el-table-column>
+    </el-table-column>-->
+
+      <el-table-column label="Variety" prop="variety" min-width="8%"></el-table-column>
+      <el-table-column label="Genre" prop="genre" min-width="8%">
+        <template slot-scope="scope">
+          <el-link @click="contextdrawer = true;RowSearch(scope.row);creat()" >{{scope.row.genre}}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="Domain" prop="domain" min-width="14%">
         <template slot-scope="scope">
           <a :href="scope.row.url" target="_blank" class="buttonText">{{scope.row.domain}}</a>
@@ -249,22 +252,35 @@
        :total="total">
  </el-pagination>
 
- 
+ <el-drawer
+  title="CONTEXT+"
+  :visible.sync="contextdrawer"
+  append-to-body = true
+  size="100%"
+  >
+  <div>
+    <el-table
+      style="width: 100%"
+      :data="getValues"
+      :show-header="false"
+    >
+      <el-table-column
+        v-for="(item, index) in getHeaders"
+        :key="index"
+        :prop="item"
+      >
+      </el-table-column>
+    </el-table>
+  </div>
+  
+</el-drawer>
    </div>
    </el-drawer>
+   
+
    </div>
  </el-drawer>
     </div>
-    <!-- <el-table
-    :data="userlist"
-     style="width: 100%"
-    max-height="550">
-      <el-table-column type="index"></el-table-column>
-      <el-table-column label="查询范围" prop="variety"></el-table-column>
-      <el-table-column label="文本地址" prop="url"></el-table-column>
-      <el-table-column label="文本内容" prop="content" fit="false"></el-table-column>
-    </el-table> -->
- 
     </div>
    </el-main>
    <!--尾部区-->
@@ -392,6 +408,28 @@
  export default {
    data () {
      return {
+      headers: [
+      {
+        prop: 'variety',
+        label: 'Variety'
+      },
+      {
+        prop: 'genre',
+        label: 'Genre'
+      },
+      {
+        prop: 'words',
+        label: 'Words'
+      },
+      {
+        prop: 'domain',
+        label: 'Domain'
+      },
+      {
+        prop: 'content',
+        label: 'Content'
+      }
+    ],
        input3: '', // 获取搜索的值
        queryInfo: {
          keyword: '',
@@ -402,6 +440,10 @@
        },
        selectList:[{ value:'match', label:'Match' }, { value:'fuzzy', label:'Fuzzy' }],
        documentList: [],
+       documentListRow: [],
+       originTitle: ['Variety', 'Genre', 'Domain', 'Title', 'Content'],
+       transTitle: ['', ''],
+       transData: [],
        Frequency: [],
        pagenum:1,
        total: 0,
@@ -411,9 +453,20 @@
        disabled: false,
        dialogVisible: false,
        dialogVisible2: false,
+       dialogVisible3: false,
        clientWidth: document.body.clientWidth
      }
    },
+   computed: {
+    getHeaders() {
+    return this.documentListRow.reduce((pre, cur, index) => pre.concat(`value${index}`), ['title'])
+   },
+  getValues() {
+      return this.headers.map(item => {
+      return this.documentListRow.reduce((pre, cur, index) => Object.assign(pre, { ['value' + index]: cur[item.prop] }), { title: item.label });
+    });
+   }
+},
    created () {
      this.queryInfo.select = this.selectList[0].value
      // this.matchCount()
@@ -446,6 +499,32 @@
        })
        this.pagenum = this.total / this.queryInfo.pageSize
      },
+     created() {
+            // 数组按矩阵思路, 变成转置矩阵
+            let matrixData = this.documentListRow.map((row) => {
+                let arr = []
+                for (let key in row) {
+                    arr.push(row[key])
+                }
+                return arr
+            })
+            console.log(matrixData)
+            // 加入标题拼接最终的数据
+            this.transData = matrixData[0].map((col, i) => {
+                return [this.originTitle[i], ...matrixData.map((row) => {
+                    return row[i]
+                })]
+            })
+            console.log(this.transData)
+        },
+     RowSearch (row) {
+       this.documentListRow = [row];
+       console.log(row)
+     },
+     tableCellClassName({ row, column, rowIndex, columnIndex }){
+      row.index = rowIndex;
+      column.index = columnIndex;
+    },
      handleSizeChange(newSize) {
         this.queryInfo.pageSize = newSize
         this.pageSearch(this.queryInfo.variety)
