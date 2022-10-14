@@ -4,11 +4,11 @@
     <!--头部区域-->
    <el-header>
        <div>
-         <img src="#" alt="">
-         <span><el-button round style="background: #F5F5F5">Corpus of Chinese-based Englishes(CCE)</el-button></span>
+         <!--<img src="#" alt="">-->
+         <span><el-button round style="background: #F5F5F5" @click="gotoindex">Corpus of Chinese-based Englishes(CCE)</el-button></span>
        </div>
        <div >
-       <el-button round @click="login">Sign in</el-button>
+       <!--<el-button round @click="login">Sign in</el-button>-->
        <!--<el-button type="info" @click="login" style="float: right">注册</el-button>-->
        <!--<el-button type="info" @click="help" style="margin-right:10px">帮助</el-button>-->
        </div>
@@ -16,13 +16,13 @@
    <!--页面主体区-->
    <el-main style="height:200px">
   <div class="main">
-     <!--<div class="img">
+     <div class="img">
      <img src="./title.jpg" style="max-width: 745px;" class="img-responsive center-block" alt="COCE" title="Corpus of Chinese-based Englishes">
-   </div>-->
-   <h1 class="heading" style="max-width: 1000px;font-size: 45px; ">Corpus of Chinese-based Englishes</h1>
-   <div class="search">
+   </div>
+   <!--<h1 class="heading" style="max-width: 1000px;font-size: 45px; ">Corpus of Chinese-based Englishes</h1>-->
+   <div class="search" >
     
-   <el-input style="box-shadow: darkgrey 0px 0px 15px 5px;" placeholder="Please input a query" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
+   <el-input  style="border-radius: 20px;box-shadow:0px 0px 15px 15px rgba(0,0,0,0.1);" placeholder="Please input a query" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
      <!--
        <el-select v-model="queryInfo.variety" slot="prepend" placeholder="请选择">
        <el-option label="所有" value="ALL"></el-option>
@@ -34,7 +34,7 @@
        <el-option label="马来西亚" value="my"></el-option>
      </el-select>
      -->
-     <el-select v-model="queryInfo.select" slot="prepend" placeholder="请选择" >
+     <el-select :inner-style="{height: '50px'}" v-model="queryInfo.select" slot="prepend" placeholder="请选择" >
  <!--      <el-option label="精确查询" value="match"></el-option>-->
  <!--      <el-option label="模糊查询" value="fuzzy"></el-option>-->
        <el-option v-for="item in selectList" :key="item.key" :label="item.label" :value="item.value"/>
@@ -222,9 +222,9 @@
           <el-link @click="contextdrawer = true;RowSearch(scope.row);creat()" >{{scope.row.genre}}</el-link>
         </template>
       </el-table-column>
-      <el-table-column label="Domain" prop="domain" min-width="14%">
+      <el-table-column label="Url" prop="url" min-width="14%">
         <template slot-scope="scope">
-          <a :href="scope.row.url" target="_blank" class="buttonText">{{scope.row.domain}}</a>
+          <a :href="scope.row.url" target="_blank" class="buttonText">{{scope.row.url}}</a>
         </template>
       </el-table-column>
       <!--<el-table-column label="单词数" prop="words" min-width="4%"></el-table-column>-->
@@ -249,7 +249,8 @@
        :page-size="queryInfo.pageSize"
        :page-count="pagenum"
        layout="prev, pager, next"
-       :total="total">
+       :total="total"
+       style="text-align: center;">
  </el-pagination>
 
  <el-drawer
@@ -285,16 +286,15 @@
    </el-main>
    <!--尾部区-->
     <el-footer>
-      <el-card class="box-card" style="height: 140px;">
-        <el-row :gutter="18">
-          
+      <el-card style="height: 120px;" :body-style="{padding: '0px'}">
+        <div class="item">
+        <el-row>
           <el-col :span="2">
             <div class="copyright">
               <div class="copy-side"> &nbsp;
               </div>
             </div>
           </el-col>
-        
           <el-col :span="8">
             <div class="item item-apps" style="width: 40%">
               <dl>
@@ -393,6 +393,7 @@
             </div>
           </el-col>
         </el-row>
+        </div>
       </el-card>
       <div class="footer">
         <div class="footer2">
@@ -426,6 +427,10 @@
         label: 'Domain'
       },
       {
+        prop: 'url',
+        label: 'Url'
+      },
+      {
         prop: 'content',
         label: 'Content'
       }
@@ -441,7 +446,7 @@
        selectList:[{ value:'match', label:'Match' }, { value:'fuzzy', label:'Fuzzy' }],
        documentList: [],
        documentListRow: [],
-       originTitle: ['Variety', 'Genre', 'Domain', 'Title', 'Content'],
+       originTitle: ['Variety', 'Genre', 'Url', 'Title', 'Content'],
        transTitle: ['', ''],
        transData: [],
        Frequency: [],
@@ -556,6 +561,9 @@
       //   - Bind new click behaviour to each table row element
       generate_href_for_each_tbl_row() {
 
+      },
+      gotoindex(){
+        this.$router.go(0);
       }
    }
  }
@@ -596,9 +604,9 @@
     }
     .search{
       width: 100%;
-      display: block;
       margin:0 auto;
     }
+    
     display: flex;
     height: 100%;
     width: 100%;
@@ -617,6 +625,9 @@
     .el-pagination {
     margin-top: 15px;
   }
+    /deep/ .el-input__inner{
+     height: 50px !important;
+    }
   }
 
   .el-footer {
@@ -653,20 +664,26 @@
       min-height: 36px;
     }
     .row-bg {
-      padding: 10px 0;
+      padding: 0px 0px;
       background-color: #F5F5F5;
     }
+    .el-card {
+       padding:0px;
+    }
     >.box-card>.el-link {
-      type-style: solid;
+      font-style: solid;
+    }
+    .item{
+      padding:0px 20px;
     }
     .el-row {
-     margin-bottom: 20px;
+     margin-bottom: 00px;
      &:last-child {
        margin-bottom: 0;
      }
    }
    .el-col {
-     border-radius: 4px;
+     border-radius: 0px;
    }
    .bg-purple-dark {
      background: #f8f8f9;
