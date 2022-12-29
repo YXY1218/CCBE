@@ -23,22 +23,11 @@
    <div class="search" >
     
    <el-input  style="border-radius: 20px;box-shadow:0px 0px 15px 15px rgba(0,0,0,0.1);" placeholder="Please input a query" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
-     <!--
-       <el-select v-model="queryInfo.variety" slot="prepend" placeholder="请选择">
-       <el-option label="所有" value="ALL"></el-option>
-       <el-option label="中国大陆" value="cn"></el-option>
-       <el-option label="中国香港" value="hk"></el-option>
-       <el-option label="中国澳门" value="mo"></el-option>
-       <el-option label="中国台湾" value="tw"></el-option>
-       <el-option label="新加坡" value="sg"></el-option>
-       <el-option label="马来西亚" value="my"></el-option>
-     </el-select>
-     -->
-     <el-select :inner-style="{height: '50px'}" v-model="queryInfo.select" slot="prepend" placeholder="请选择" >
- <!--      <el-option label="精确查询" value="match"></el-option>-->
+     <!--<el-select :inner-style="{height: '50px'}" v-model="queryInfo.select" slot="prepend" placeholder="请选择" >
+     <el-option label="精确查询" value="match"></el-option>-->
  <!--      <el-option label="模糊查询" value="fuzzy"></el-option>-->
-       <el-option v-for="item in selectList" :key="item.key" :label="item.label" :value="item.value"/>
-     </el-select>
+       <!--<el-option v-for="item in selectList" :key="item.key" :label="item.label" :value="item.value"/>
+     </el-select>-->
      <el-button slot="append" icon="el-icon-search" @click="drawer = true; matchCount()" target="_blank"></el-button>
    </el-input>
     
@@ -53,10 +42,12 @@
      align="center"
      >
      <!--统计数量-->
-      <el-table-column label="All" width="170" align="center" value="all">
+     <el-table-column prop="phrase" label="phrase" width="200" align="center">
+     </el-table-column>
+      <el-table-column label="All" width="170" align="center" prop="all">
        <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch ('ALL')">{{scope.row.cn+scope.row.hk+scope.row.mo+scope.row.my+scope.row.tw+scope.row.sg}}</el-link>
+              <el-link @click="innerDrawer = true;pageAllSearch ()">{{scope.row.all}}</el-link>
             </div>
        </template>
      </el-table-column>
@@ -115,127 +106,39 @@
     max-height="580px"
     :cell-class-name="tableCellClassName"
     stripe>
- <!--     <el-table-column type="index"></el-table-column>-->
- 
-
- <!--<el-table-column type="expand">
-      <template slot-scope="props">
-        <el-form label-position="middle" inline class="demo-table-expand">
-          <dd>
-          <el-row :gutter="20" style="margin-bottom: 5px;">
-            <el-col :span="3">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span solt="label">
-              <span style="color:black;"><strong>Variety</strong></span>
-            </span>
-              </div>
-            </el-col>
-            <el-col :span="18">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span>{{ props.row.variety}}</span>
-              </div>
-            </el-col>
-          </el-row>
-          </dd>
-
-          <dd>
-            <el-row :gutter="20" style="margin-bottom: 5px;">
-            <el-col :span="3">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span solt="label">
-              <span style="color:black;"><strong>Genre</strong></span>
-            </span>
-              </div>
-            </el-col>
-            <el-col :span="18">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span>{{ props.row.genre}}</span>
-              </div>
-            </el-col>
-          </el-row>
-          </dd>
-          <dd>
-            <el-row :gutter="20" style="margin-bottom: 5px;">
-            <el-col :span="3">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span solt="label">
-              <span style="color:black;"><strong>Source</strong></span>
-            </span>
-              </div>
-            </el-col>
-            <el-col :span="18">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span>{{ props.row.domain}}</span>
-              </div>
-            </el-col>
-          </el-row>
-          </dd>
-          <dd>
-            <el-row :gutter="20" style="margin-bottom: 5px;">
-            <el-col :span="3">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span solt="label">
-              <span style="color:black;"><strong>Words</strong></span>
-            </span>
-              </div>
-            </el-col>
-            <el-col :span="18">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span>{{ props.row.words}}</span>
-              </div>
-            </el-col>
-          </el-row>
-          </dd>
-          <dd>
-            <el-row :gutter="20" style="margin-bottom: 5px;">
-            <el-col :span="3">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span solt="label">
-              <span style="color:black;"><strong>Title</strong></span>
-            </span>
-              </div>
-            </el-col>
-            <el-col :span="18">
-              <div style="background-color:#DEE9F3">
-                &nbsp;
-            <span>{{ props.row.title}}</span>
-              </div>
-            </el-col>
-          </el-row>
-          </dd>
-        </el-form>
-      </template>
-    </el-table-column>-->
-
-      <el-table-column label="Variety" prop="variety" min-width="8%"></el-table-column>
+      <el-table-column label=" " width="70" align="left">
+          <template slot-scope="scope">
+            {{ (scope.$index+1)+(queryInfo.pageNo-1)*queryInfo.pageSize }}
+          </template>
+      </el-table-column>
+      <el-table-column label="Variety" prop="variety" min-width="8%">
+        <template slot-scope="scope">
+          <el-link @click="contextdrawer = true;RowSearch(scope.row);creat()" >{{scope.row.genre}}</el-link>
+        </template>
+      </el-table-column>
+      <el-table-column label="TextId" prop="textId" min-width="8%">
+        <template slot-scope="scope">
+          <el-link @click="contextdrawer = true;RowSearch(scope.row);creat()" >{{scope.row.textId}}</el-link>
+        </template>
+      </el-table-column>
       <el-table-column label="Genre" prop="genre" min-width="8%">
         <template slot-scope="scope">
           <el-link @click="contextdrawer = true;RowSearch(scope.row);creat()" >{{scope.row.genre}}</el-link>
         </template>
       </el-table-column>
-      <el-table-column label="Url" prop="url" min-width="14%">
+      <el-table-column label="Domain" prop="domain" min-width="14%">
         <template slot-scope="scope">
-          <a :href="scope.row.url" target="_blank" class="buttonText">{{scope.row.url}}</a>
+          <a :href="scope.row.domain" target="_blank" class="buttonText">{{scope.row.domain}}</a>
         </template>
       </el-table-column>
       <!--<el-table-column label="单词数" prop="words" min-width="4%"></el-table-column>-->
-      <el-table-column label="Title" prop="title" min-width="15%"></el-table-column>
-      <el-table-column label="Content" prop="content" fit="false" min-width="55%">
+      <el-table-column label="Words" prop="words" fit="false" min-width="55%">
         <template slot-scope="scope">
         <!--<div v-html='scope.row.content'></div>-->
         <!--设置本列多余数据隐藏显示及高亮-->
           <el-popover placement="top-start" width="800" trigger="hover">
-           <div style="height:300px;overflow-y:auto" v-html='scope.row.content'></div>
-           <div slot="reference" v-html='scope.row.content.substr(0,300)'></div>
+           <div style="height:300px;overflow-y:auto" v-html='scope.row.words'></div>
+           <div slot="reference" v-html='scope.row.words.substr(0,300)'></div>
           </el-popover>
          </template>
       </el-table-column>
@@ -262,15 +165,76 @@
   <div>
     <el-table
       style="width: 100%"
-      :data="getValues"
-      :show-header="false"
+      :data="documentListRow"
+      default-expand-all="true"
     >
-      <el-table-column
-        v-for="(item, index) in getHeaders"
-        :key="index"
-        :prop="item"
-      >
-      </el-table-column>
+    <el-table-column type="expand" width="100%" >
+      <template slot-scope="props">
+        <el-form label-position="left" inline class="demo-table-expand" style="margin-left:3%">
+          <div style="font-size: 24px;font-weight: bold">Information</div>
+          <br>
+          <el-card style="width:95%">
+          <el-form-item class="formitem" style="width:100%;" >
+            <span>
+            <div style="font-size: 18px;float: left;font-weight: bold;width: 500px;">variety</div>
+            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.variety }}</div>
+            </span>
+          </el-form-item>
+          <el-form-item class="formitem" style="width:100%;" >
+            <span>
+            <div style="font-size: 18px;float: left;font-weight: bold;width: 500px;">TextID</div>
+            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.textId }}</div>
+            </span>
+          </el-form-item>
+          <el-form-item class="formitem" style="width:100%;" >
+            <span>
+            <div style="font-size: 18px;float: left;font-weight: bold;width: 500px;">Genre</div>
+            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.genre }}</div>
+            </span>
+          </el-form-item>
+          <el-form-item class="formitem" style="width:100%;" >
+            <span>
+            <div style="font-size: 18px;float: left;font-weight: bold;width: 500px;">Url</div>
+            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.url }}</div>
+            </span>
+          </el-form-item>
+          <el-form-item class="formitem" style="width:100%;" >
+            <span>
+            <div style="font-size: 18px;float: left;font-weight: bold;width: 500px;">Time</div>
+            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.time }}</div>
+            </span>
+          </el-form-item>
+          <el-form-item class="formitem" style="width:100%;" >
+            <span>
+            <div style="font-size: 18px;float: left;font-weight: bold;width: 500px;">Domain</div>
+            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.domain }}</div>
+            </span>
+          </el-form-item>
+          <el-form-item class="formitem" style="width:100%;" >
+            <span>
+            <div style="font-size: 18px;float: left;font-weight: bold;width: 500px;">Words</div>
+            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.words }}</div>
+            </span>
+          </el-form-item>
+          </el-card>
+          <br>
+          <el-form-item class="formitem" style="width:100%;" >
+            <span>
+            <div style="font-size: 24px;font-weight: bold">Expanded content</div>
+            <div style="font-size: 15px;"><div v-html="props.row.content"></div></div>
+            </span>
+          </el-form-item>
+      </el-form>    
+      </template>
+    </el-table-column>
+    <el-table-column label="Variety" prop="variety" min-width="5%"></el-table-column>
+      <el-table-column label="TextId" prop="textId" min-width="5%"></el-table-column>
+      <el-table-column label="Genre" prop="genre" min-width="5%"></el-table-column>
+      <el-table-column label="Url" prop="url" min-width="12%"></el-table-column>
+      <el-table-column label="Time" prop="time" min-width="8%"></el-table-column>
+      <el-table-column label="Title" prop="title" min-width="12%"></el-table-column>
+      <el-table-column label="Domain" prop="domain" min-width="12%"></el-table-column>
+      <el-table-column label="Words" prop="words" min-width="6%"></el-table-column>
     </el-table>
   </div>
   
@@ -415,24 +379,36 @@
         label: 'Variety'
       },
       {
+        prop: 'textId',
+        label: 'TextId'
+      },
+      {
         prop: 'genre',
         label: 'Genre'
       },
       {
-        prop: 'words',
-        label: 'Words'
+        prop:'title',
+        label:'Title'
+      },
+      {
+        prop:'url',
+        label:'Url'
+      },
+      {
+        prop:'time',
+        label:'Time'
       },
       {
         prop: 'domain',
         label: 'Domain'
       },
       {
-        prop: 'url',
-        label: 'Url'
+        prop: 'words',
+        label: 'Words'
       },
       {
-        prop: 'content',
-        label: 'Content'
+        prop:'content',
+        label:'Expanded Content'
       }
     ],
        input3: '', // 获取搜索的值
@@ -440,14 +416,13 @@
          keyword: '',
          variety: '',
          pageNo: 1,
-         pageSize: 10,
-         select: ''
-       },
-       selectList:[{ value:'match', label:'Match' }, { value:'fuzzy', label:'Fuzzy' }],
+         pageSize: 10
+        },
+       // selectList:[{ value:'match', label:'Match' }, { value:'fuzzy', label:'Fuzzy' }],
        documentList: [],
        documentListRow: [],
-       originTitle: ['Variety', 'Genre', 'Url', 'Title', 'Content'],
-       transTitle: ['', ''],
+       originTitle: ['Variety', 'TextId', 'Genre', 'Title', 'Url', 'Time', 'Domain', 'Words', 'Expanded Content'], 
+       transTitle: ['1', '2'],
        transData: [],
        Frequency: [],
        pagenum:1,
@@ -465,7 +440,7 @@
    computed: {
     getHeaders() {
     return this.documentListRow.reduce((pre, cur, index) => pre.concat(`value${index}`), ['title'])
-   },
+  },
   getValues() {
       return this.headers.map(item => {
       return this.documentListRow.reduce((pre, cur, index) => Object.assign(pre, { ['value' + index]: cur[item.prop] }), { title: item.label });
@@ -480,14 +455,15 @@
    methods: {
      async matchCount () {
        const keyword = this.queryInfo.keyword
-       const select = this.queryInfo.select
+      // const select = this.queryInfo.select
  
-       console.log('select:' + this.queryInfo.select)
-       axios.get('/api/count/' + select + '/' + keyword).then(response => {
+      // console.log('select:' + this.queryInfo.select)
+       axios.get('/api/countPhrases/' + keyword).then(response => {
          console.log(response.data)
-         this.Frequency = [response.data]
+         this.Frequency = response.data
        })
      },
+     // 对应着searchContext接口
      pageSearch (variety) {
        // window.open('./searchWeb.vue')
  
@@ -495,15 +471,35 @@
        this.queryInfo.variety = variety
        const pageNo = this.queryInfo.pageNo
        const pageSize = this.queryInfo.pageSize
-       const select = this.queryInfo.select
+       // const select = this.queryInfo.select
        console.log(this.pagenum)
-       axios.get('/api/search/' + select + '/' + variety + '/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+       axios.get('/api/searchContext/' + keyword + '/' + variety + '/' + pageNo + '/' + pageSize).then(response => {
          console.log(response.data)
-         this.documentList = response.data.DocumentList
-         this.total = response.data.TotalHits
+         this.documentList = response.data
+         for (var i = 0; i < this.documentList.length; i++){
+         this.documentList[i].words = this.documentList[i].words.join(' ')
+        }
        })
-       this.pagenum = this.total / this.queryInfo.pageSize
+       this.pagenum = this.documentList.length / this.queryInfo.pageSize
      },
+     // 对应着searchAllContext接口，即点击all时显示的数据
+     pageAllSearch () {
+       // window.open('./searchWeb.vue')
+ 
+       const keyword = this.queryInfo.keyword
+       const pageNo = this.queryInfo.pageNo
+       const pageSize = this.queryInfo.pageSize
+       // const select = this.queryInfo.select
+       console.log(this.pagenum)
+       axios.get('/api/searchAllContext/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+         console.log(response.data)
+         this.documentList = response.data
+         for (var i = 0; i < this.documentList.length; i++){
+         this.documentList[i].words = this.documentList[i].words.join(' ')
+        }
+       })
+       this.pagenum = this.documentList.length / this.queryInfo.pageSize
+      },
      created() {
             // 数组按矩阵思路, 变成转置矩阵
             let matrixData = this.documentListRow.map((row) => {
@@ -520,11 +516,32 @@
                     return row[i]
                 })]
             })
-            console.log(this.transData)
+          console.log(this.transData)
         },
      RowSearch (row) {
-       this.documentListRow = [row];
-       console.log(row)
+       const variety = row.variety
+       const textId = row.textId
+       const keyword = this.queryInfo.keyword
+       console.log(keyword)
+      axios.get('/api/selectSource/' + keyword + '/' + variety + '/' + textId).then(response => {
+         console.log(response.data)
+         this.documentListRow = [response.data]
+         if (keyword.length > 0) {
+           let keywordArr = keyword.split(",");
+           this.documentListRow[0].content = this.documentListRow[0].content + "";
+           keywordArr.forEach(item => {
+           if (this.documentListRow[0].content.indexOf(item) !== -1 && item !== "") {
+            this.documentListRow[0].content = this.documentListRow[0].content.replace(
+              new RegExp(item, 'g'),
+              '<font color="#fe7300"><strong>' + item + "</strong></font>"
+            );
+          }
+        });
+        return this.documentListRow[0].content;
+      } else {
+        return this.documentListRow[0].content;
+      }
+       })
      },
      tableCellClassName({ row, column, rowIndex, columnIndex }){
       row.index = rowIndex;
@@ -628,6 +645,18 @@
     /deep/ .el-input__inner{
      height: 50px !important;
     }
+    >.demo-table-expand {
+    font-size: 0;
+  }
+  .el-form-item__label {
+    width: 90px;
+    color: #99a9bf;
+  }
+  >.demo-table-expand .el-form-item {
+    margin-right: 0;
+    margin-bottom: 0;
+    width: 50%;
+  }
   }
 
   .el-footer {
