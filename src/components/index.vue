@@ -47,49 +47,49 @@
       <el-table-column label="All" width="170" align="center" prop="all">
        <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageAllSearch ()">{{scope.row.all}}</el-link>
+              <el-link @click="innerDrawer = true;pageAllSearch (['all',scope.row.all])">{{scope.row.all}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="cn" label="Mainland" width="200" align="center">
        <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch ('cn')">{{scope.row.cn}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['cn', scope.row.cn])">{{scope.row.cn}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="hk" label="Hong Kong" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch ('hk')">{{scope.row.hk}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['hk', scope.row.hk])">{{scope.row.hk}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="mo" label="Macau" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch ('mo')">{{scope.row.mo}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['mo', scope.row.mo])">{{scope.row.mo}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="tw" label="Taiwan" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch ('tw')">{{scope.row.tw}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['tw', scope.row.tw])">{{scope.row.tw}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="sg" label="Singapore" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch ('sg')">{{scope.row.sg}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['sg', scope.row.sg])">{{scope.row.sg}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="my" label="Malaysia" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch ('my')">{{scope.row.my}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['my', scope.row.my])">{{scope.row.my}}</el-link>
             </div>
        </template>
      </el-table-column>
@@ -113,7 +113,7 @@
       </el-table-column>
       <el-table-column label="Variety" prop="variety" min-width="8%">
         <template slot-scope="scope">
-          <el-link @click="contextdrawer = true;RowSearch(scope.row);creat()" >{{scope.row.genre}}</el-link>
+          <el-link @click="contextdrawer = true;RowSearch(scope.row);creat()" >{{scope.row.variety}}</el-link>
         </template>
       </el-table-column>
       <el-table-column label="TextId" prop="textId" min-width="8%">
@@ -133,14 +133,9 @@
       </el-table-column>
       <!--<el-table-column label="单词数" prop="words" min-width="4%"></el-table-column>-->
       <el-table-column label="Words" prop="words" fit="false" min-width="55%">
-        <template slot-scope="scope">
-        <!--<div v-html='scope.row.content'></div>-->
-        <!--设置本列多余数据隐藏显示及高亮-->
-          <el-popover placement="top-start" width="800" trigger="hover">
-           <div style="height:300px;overflow-y:auto" v-html='scope.row.words'></div>
-           <div slot="reference" v-html='scope.row.words.substr(0,300)'></div>
-          </el-popover>
-         </template>
+        <template slot-scope="scope"> 
+         <div style="font-size: 15px;"><div v-html="scope.row.words"></div></div>
+        </template>
       </el-table-column>
     </el-table>
   
@@ -152,7 +147,7 @@
        :page-size="queryInfo.pageSize"
        :page-count="pagenum"
        layout="prev, pager, next"
-       :total="total"
+       :total="num"
        style="text-align: center;">
  </el-pagination>
 
@@ -183,7 +178,7 @@
           <el-form-item class="formitem" style="width:100%;" >
             <span>
             <div style="font-size: 18px;float: left;font-weight: bold;width: 500px;">TextID</div>
-            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.textId }}</div>
+            <div style="font-size: 15px;float: right;"><el-divider direction="vertical"></el-divider>{{ props.row.textID }}</div>
             </span>
           </el-form-item>
           <el-form-item class="formitem" style="width:100%;" >
@@ -228,7 +223,7 @@
       </template>
     </el-table-column>
     <el-table-column label="Variety" prop="variety" min-width="5%"></el-table-column>
-      <el-table-column label="TextId" prop="textId" min-width="5%"></el-table-column>
+      <el-table-column label="TextId" prop="textID" min-width="5%"></el-table-column>
       <el-table-column label="Genre" prop="genre" min-width="5%"></el-table-column>
       <el-table-column label="Url" prop="url" min-width="12%"></el-table-column>
       <el-table-column label="Time" prop="time" min-width="8%"></el-table-column>
@@ -379,7 +374,7 @@
         label: 'Variety'
       },
       {
-        prop: 'textId',
+        prop: 'textID',
         label: 'TextId'
       },
       {
@@ -458,47 +453,72 @@
       // const select = this.queryInfo.select
  
       // console.log('select:' + this.queryInfo.select)
-       axios.get('/api/countPhrases/' + keyword).then(response => {
+       axios.get('http://39.105.116.51:8080/countPhrases/' + keyword).then(response => {
          console.log(response.data)
          this.Frequency = response.data
        })
      },
      // 对应着searchContext接口
-     pageSearch (variety) {
+     pageSearch ([variety, num]) {
        // window.open('./searchWeb.vue')
  
        const keyword = this.queryInfo.keyword
        this.queryInfo.variety = variety
+       this.queryInfo.num = num
        const pageNo = this.queryInfo.pageNo
        const pageSize = this.queryInfo.pageSize
        // const select = this.queryInfo.select
        console.log(this.pagenum)
-       axios.get('/api/searchContext/' + keyword + '/' + variety + '/' + pageNo + '/' + pageSize).then(response => {
+       console.log(num)
+       axios.get('http://39.105.116.51:8080/selectContext/' + keyword + '/' + variety + '/' + pageNo + '/' + pageSize).then(response => {
          console.log(response.data)
          this.documentList = response.data
          for (var i = 0; i < this.documentList.length; i++){
-         this.documentList[i].words = this.documentList[i].words.join(' ')
-        }
+         this.documentList[i].words = this.documentList[i].words.join(' ');
+         let keywordArr = keyword.split(",");
+         this.documentList[i].words = this.documentList[i].words + "";
+         keywordArr.forEach(item => {
+         if (this.documentList[i].words.indexOf(item) !== -1 && item !== "") {
+         this.documentList[i].words = this.documentList[i].words.replace(
+           new RegExp(item, 'g'),
+           '<font color="#fe7300"><strong>' + item + "</strong></font>"
+          );
+         }
+        });
+       }
        })
-       this.pagenum = this.documentList.length / this.queryInfo.pageSize
+       this.pagenum = Math.ceil(num / this.queryInfo.pageSize)
      },
      // 对应着searchAllContext接口，即点击all时显示的数据
-     pageAllSearch () {
+     pageAllSearch ([variety, num]) {
        // window.open('./searchWeb.vue')
  
        const keyword = this.queryInfo.keyword
        const pageNo = this.queryInfo.pageNo
        const pageSize = this.queryInfo.pageSize
+       this.queryInfo.variety = variety
+       this.queryInfo.num = num
        // const select = this.queryInfo.select
        console.log(this.pagenum)
-       axios.get('/api/searchAllContext/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
+       axios.get('http://39.105.116.51:8080/selectAllContext/' + keyword + '/' + pageNo + '/' + pageSize).then(response => {
          console.log(response.data)
          this.documentList = response.data
+         console.log(num)
          for (var i = 0; i < this.documentList.length; i++){
-         this.documentList[i].words = this.documentList[i].words.join(' ')
-        }
+          this.documentList[i].words = this.documentList[i].words.join(' ');
+          let keywordArr = keyword.split(",");
+         this.documentList[i].words = this.documentList[i].words + "";
+         keywordArr.forEach(item => {
+         if (this.documentList[i].words.indexOf(item) !== -1 && item !== "") {
+         this.documentList[i].words = this.documentList[i].words.replace(
+           new RegExp(item, 'g'),
+           '<font color="#fe7300"><strong>' + item + "</strong></font>"
+          );
+         }
+        });
+         } 
        })
-       this.pagenum = this.documentList.length / this.queryInfo.pageSize
+       this.pagenum = Math.ceil(num / this.queryInfo.pageSize)  
       },
      created() {
             // 数组按矩阵思路, 变成转置矩阵
@@ -523,7 +543,7 @@
        const textId = row.textId
        const keyword = this.queryInfo.keyword
        console.log(keyword)
-      axios.get('/api/selectSource/' + keyword + '/' + variety + '/' + textId).then(response => {
+      axios.get('http://39.105.116.51:8080/selectSource/' + variety + '/' + textId).then(response => {
          console.log(response.data)
          this.documentListRow = [response.data]
          if (keyword.length > 0) {
@@ -549,11 +569,19 @@
     },
      handleSizeChange(newSize) {
         this.queryInfo.pageSize = newSize
-        this.pageSearch(this.queryInfo.variety)
-     },
+        if (this.queryInfo.variety === "all") {
+          this.pageAllSearch([this.queryInfo.variety, this.queryInfo.num])
+        } else {
+          this.pageSearch([this.queryInfo.variety, this.queryInfo.num])
+        }
+      },
      handleCurrentChange(newPage) {
        this.queryInfo.pageNo = newPage
-       this.pageSearch(this.queryInfo.variety)
+       if (this.queryInfo.variety === "all") {
+          this.pageAllSearch([this.queryInfo.variety, this.queryInfo.num])
+        } else {
+          this.pageSearch([this.queryInfo.variety, this.queryInfo.num])
+        }
      },
      handleClose(done) {
          this.$confirm('Colse？')
