@@ -47,49 +47,49 @@
       <el-table-column label="All" width="170" align="center" prop="all">
        <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageAllSearch (['all',scope.row.all])">{{scope.row.all}}</el-link>
+              <el-link @click="innerDrawer = true;pageAllSearch (['all',scope.row.all, scope.row.phrase, '1'])">{{scope.row.all}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="cn" label="Mainland" width="200" align="center">
        <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch (['cn', scope.row.cn])">{{scope.row.cn}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['cn', scope.row.cn, scope.row.phrase, '1'])">{{scope.row.cn}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="hk" label="Hong Kong" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch (['hk', scope.row.hk])">{{scope.row.hk}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['hk', scope.row.hk, scope.row.phrase, '1'])">{{scope.row.hk}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="mo" label="Macau" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch (['mo', scope.row.mo])">{{scope.row.mo}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['mo', scope.row.mo, scope.row.phrase, '1'])">{{scope.row.mo}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="tw" label="Taiwan" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch (['tw', scope.row.tw])">{{scope.row.tw}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['tw', scope.row.tw, scope.row.phrase, '1'])">{{scope.row.tw}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="sg" label="Singapore" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch (['sg', scope.row.sg])">{{scope.row.sg}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['sg', scope.row.sg, scope.row.phrase, '1'])">{{scope.row.sg}}</el-link>
             </div>
        </template>
      </el-table-column>
      <el-table-column prop="my" label="Malaysia" width="200" align="center">
              <template slot-scope="scope">
             <div>
-              <el-link @click="innerDrawer = true;pageSearch (['my', scope.row.my])">{{scope.row.my}}</el-link>
+              <el-link @click="innerDrawer = true;pageSearch (['my', scope.row.my, scope.row.phrase, '1'])">{{scope.row.my}}</el-link>
             </div>
        </template>
      </el-table-column>
@@ -362,7 +362,6 @@
     </el-footer>
  </el-container>
  </template>
- 
  <script>
  const axios = require('axios')
  export default {
@@ -406,7 +405,6 @@
         label:'Expanded Content'
       }
     ],
-       input3: '', // 获取搜索的值
        queryInfo: {
          keyword: '',
          variety: '',
@@ -449,7 +447,35 @@
    },
    methods: {
      async matchCount () {
-       const keyword = this.queryInfo.keyword
+       var keyword = this.queryInfo.keyword
+       console.log(keyword)
+       keyword = encodeURI(keyword)
+       console.log("编码以后")
+       console.log(keyword)
+      //  const keywordArr = keyword.split(" ")
+      //  console.log(keywordArr)
+      //  console.log(keywordArr[0][0])
+      //  for (var j = 0; j < keywordArr.length; j++){
+      //    for (var k = 0; k < keywordArr[j].length; k++){
+      //    if (keywordArr[j][k] === "["){
+      //      keywordArr[j][k] = "%5B"
+      //    } else if (keywordArr[j][k] === "]"){
+      //     keywordArr[j][k] = "%5D"
+      //    } else if (keywordArr[j][k] === "("){
+      //     keywordArr[j][k] = "%28"
+      //    } else if (keywordArr[j][k] === ")"){
+      //     keywordArr[j][k] = "%29"
+      //    } else {
+      //     keywordArr[j][k] = keywordArr[j][k]
+      //    }
+      //   //  this.keywordArr = "" + this.keywordArr[j].join(' ')
+      //  } 
+      // }
+      // // this.keywordArr = this.keywordArr[j].join(' ')
+      // console.log(keywordArr[0]) 
+       
+      // console.log(keywordArr)
+      // console.log(keyword)
       // const select = this.queryInfo.select
  
       // console.log('select:' + this.queryInfo.select)
@@ -459,13 +485,13 @@
        })
      },
      // 对应着searchContext接口
-     pageSearch ([variety, num]) {
+     pageSearch ([variety, num, keyword, pageNo]) {
        // window.open('./searchWeb.vue')
  
-       const keyword = this.queryInfo.keyword
+       this.queryInfo.keyword = keyword
        this.queryInfo.variety = variety
        this.queryInfo.num = num
-       const pageNo = this.queryInfo.pageNo
+       this.queryInfo.pageNo = pageNo
        const pageSize = this.queryInfo.pageSize
        // const select = this.queryInfo.select
        console.log(this.pagenum)
@@ -490,11 +516,11 @@
        this.pagenum = Math.ceil(num / this.queryInfo.pageSize)
      },
      // 对应着searchAllContext接口，即点击all时显示的数据
-     pageAllSearch ([variety, num]) {
+     pageAllSearch ([variety, num, keyword]) {
        // window.open('./searchWeb.vue')
  
-       const keyword = this.queryInfo.keyword
-       const pageNo = this.queryInfo.pageNo
+       this.queryInfo.keyword = keyword
+       var pageNo = this.queryInfo.pageNo
        const pageSize = this.queryInfo.pageSize
        this.queryInfo.variety = variety
        this.queryInfo.num = num
@@ -570,17 +596,17 @@
      handleSizeChange(newSize) {
         this.queryInfo.pageSize = newSize
         if (this.queryInfo.variety === "all") {
-          this.pageAllSearch([this.queryInfo.variety, this.queryInfo.num])
+          this.pageAllSearch([this.queryInfo.variety, this.queryInfo.num, this.queryInfo.keyword, this.queryInfo.pageNo])
         } else {
-          this.pageSearch([this.queryInfo.variety, this.queryInfo.num])
+          this.pageSearch([this.queryInfo.variety, this.queryInfo.num, this.queryInfo.keyword, this.queryInfo.pageNo])
         }
       },
      handleCurrentChange(newPage) {
        this.queryInfo.pageNo = newPage
        if (this.queryInfo.variety === "all") {
-          this.pageAllSearch([this.queryInfo.variety, this.queryInfo.num])
+          this.pageAllSearch([this.queryInfo.variety, this.queryInfo.num, this.queryInfo.keyword, this.queryInfo.pageNo])
         } else {
-          this.pageSearch([this.queryInfo.variety, this.queryInfo.num])
+          this.pageSearch([this.queryInfo.variety, this.queryInfo.num, this.queryInfo.keyword, this.queryInfo.pageNo])
         }
      },
      handleClose(done) {

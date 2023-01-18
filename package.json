@@ -13,6 +13,7 @@
     "element-ui": "^2.15.9",
     "mockjs": "^1.1.0",
     "postcss-px-to-viewport": "^1.1.1",
+    "urlencode": "^1.1.0",
     "vue": "^2.7.8",
     "vue-router": "^3.5.4"
   },
