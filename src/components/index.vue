@@ -502,12 +502,13 @@
          for (var i = 0; i < this.documentList.length; i++){
          this.documentList[i].words = this.documentList[i].words.join(' ');
          let keywordArr = keyword.split(",");
-         this.documentList[i].words = this.documentList[i].words + "";
+         var str = this.documentList[i].words + "";
+         console.log(this.documentList[i].words)
          keywordArr.forEach(item => {
-         if (this.documentList[i].words.indexOf(item) !== -1 && item !== "") {
+         if (str.toLowerCase().search(item) !== -1 && item !== "") {
          this.documentList[i].words = this.documentList[i].words.replace(
-           new RegExp(item, 'g'),
-           '<font color="#fe7300"><strong>' + item + "</strong></font>"
+           new RegExp("(" + item + ")", "ig"),
+           '<font color="#fe7300"><strong>$1</strong></font>'
           );
          }
         });
@@ -530,15 +531,16 @@
          console.log(response.data)
          this.documentList = response.data
          console.log(num)
-         for (var i = 0; i < this.documentList.length; i++){
+        for (var i = 0; i < this.documentList.length; i++){
           this.documentList[i].words = this.documentList[i].words.join(' ');
+          console.log(this.documentList[i].words)
           let keywordArr = keyword.split(",");
-         this.documentList[i].words = this.documentList[i].words + "";
-         keywordArr.forEach(item => {
-         if (this.documentList[i].words.indexOf(item) !== -1 && item !== "") {
+          var str = this.documentList[i].words + "";
+          keywordArr.forEach(item => {
+         if (str.toLowerCase().search(item) !== -1 && item !== "") {
          this.documentList[i].words = this.documentList[i].words.replace(
-           new RegExp(item, 'g'),
-           '<font color="#fe7300"><strong>' + item + "</strong></font>"
+           new RegExp("(" + item + ")", "ig"),
+           '<font color="#fe7300"><strong>$1</strong></font>'
           );
          }
         });
@@ -567,18 +569,19 @@
      RowSearch (row) {
        const variety = row.variety
        const textId = row.textId
-       const keyword = this.queryInfo.keyword
+       var keyword = this.queryInfo.keyword
        console.log(keyword)
       axios.get('http://39.105.116.51:8080/selectSource/' + variety + '/' + textId).then(response => {
          console.log(response.data)
          this.documentListRow = [response.data]
          if (keyword.length > 0) {
            let keywordArr = keyword.split(",");
+           console.log(keywordArr)
            this.documentListRow[0].content = this.documentListRow[0].content + "";
            keywordArr.forEach(item => {
            if (this.documentListRow[0].content.indexOf(item) !== -1 && item !== "") {
             this.documentListRow[0].content = this.documentListRow[0].content.replace(
-              new RegExp(item, 'g'),
+              new RegExp(item, "ig"),
               '<font color="#fe7300"><strong>' + item + "</strong></font>"
             );
           }
