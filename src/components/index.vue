@@ -21,16 +21,66 @@
    </div>
    <!--<h1 class="heading" style="max-width: 1000px;font-size: 45px; ">Corpus of Chinese-based Englishes</h1>-->
    <div class="search" >
-    
    <el-input  style="border-radius: 20px;box-shadow:0px 0px 15px 15px rgba(0,0,0,0.1);" placeholder="Please input a query" v-model="queryInfo.keyword" class="input3" @keyup.enter.native="drawer = true; matchCount()">
      <!--<el-select :inner-style="{height: '50px'}" v-model="queryInfo.select" slot="prepend" placeholder="请选择" >
      <el-option label="精确查询" value="match"></el-option>-->
  <!--      <el-option label="模糊查询" value="fuzzy"></el-option>-->
        <!--<el-option v-for="item in selectList" :key="item.key" :label="item.label" :value="item.value"/>
      </el-select>-->
+     <el-button slot="prepend" type="info" plain @click="drawer_freq = true; initEcharts()" target="_blank">Chart</el-button>
      <el-button slot="append" icon="el-icon-search" @click="drawer = true; matchCount()" target="_blank"></el-button>
-   </el-input>
-    
+    </el-input>
+
+<el-drawer
+  title="我是标题"
+  :visible.sync="drawer_freq"
+  size="100%">
+   <!--第一行-->
+  <el-table
+    :data="documentList_freq"
+    style="width: 100%"
+    align="center">
+    <el-table-column prop=" " label="Section" width="180"></el-table-column>
+    <el-table-column prop="all" label="All" width="180"></el-table-column>
+    <el-table-column prop="cn" label="Mainland" width="180"></el-table-column>
+    <el-table-column prop="hk" label="Hong Kong" width="180"></el-table-column>
+    <el-table-column prop="mo" label="Macau" width="180"></el-table-column>
+    <el-table-column prop="tw" label="Taiwan" width="180"></el-table-column>
+    <el-table-column prop="sg" label="Singapore" width="180"></el-table-column>
+    <el-table-column prop="my" label="Malaysia" width="180"></el-table-column>
+  </el-table>
+  <!--第二行-->
+  <el-table
+    :data="documentList_words"
+    :show-header="false"
+    style="width: 100%"
+    align="center">
+    <el-table-column prop=" " label="Section" width="180"></el-table-column>
+    <el-table-column prop="all" label="All" width="180"></el-table-column>
+    <el-table-column prop="cn" label="Mainland" width="180"></el-table-column>
+    <el-table-column prop="hk" label="Hong Kong" width="180"></el-table-column>
+    <el-table-column prop="mo" label="Macau" width="180"></el-table-column>
+    <el-table-column prop="tw" label="Taiwan" width="180"></el-table-column>
+    <el-table-column prop="sg" label="Singapore" width="180"></el-table-column>
+    <el-table-column prop="my" label="Malaysia" width="180"></el-table-column>
+  </el-table>
+  
+  <el-table
+    :data="documentList_words"
+    :show-header="false"
+    style="width: 100%"
+    align="center">
+    <el-table-column prop=" " label="Section" width="180"></el-table-column>
+    <el-table-column prop="all" label="All" width="180"></el-table-column>
+    <el-table-column prop="cn" label="Mainland" width="180"></el-table-column>
+    <el-table-column prop="hk" label="Hong Kong" width="180"></el-table-column>
+    <el-table-column prop="mo" label="Macau" width="180"></el-table-column>
+    <el-table-column prop="tw" label="Taiwan" width="180"></el-table-column>
+    <el-table-column prop="sg" label="Singapore" width="180"></el-table-column>
+    <el-table-column prop="my" label="Malaysia" width="180"></el-table-column>
+  </el-table>
+</el-drawer>
+
  <el-drawer
    title="Frequency"
    :visible.sync="drawer"
@@ -411,6 +461,12 @@
          pageNo: 1,
          pageSize: 10
         },
+      myChart4: '',
+      opinion: ['正常行为', '暴力行为'],
+      opinionData: [
+        { value: 85, itemStyle: '#1ab394' },
+        { value: 15, itemStyle: 'red' }
+      ],
        // selectList:[{ value:'match', label:'Match' }, { value:'fuzzy', label:'Fuzzy' }],
        documentList: [],
        documentListRow: [],
@@ -418,8 +474,13 @@
        transTitle: ['1', '2'],
        transData: [],
        Frequency: [],
+       documentList_freq: [],
+       documentList_words: [],
+       documentList_total: [],
+       chart_fre: ['FREQ', 'WORDS(M)', 'PER MIL'],
        pagenum:1,
        total: 0,
+       drawer_freq: false,
        drawer: false,
        innerDrawer: false,
        contextdrawer: false,
@@ -440,12 +501,28 @@
     });
    }
 },
-   created () {
+   created2 () {
      this.queryInfo.select = this.selectList[0].value
      // this.matchCount()
      // this.pageSearch()
    },
    methods: {
+    initEcharts(){
+        var keyword = this.queryInfo.keyword
+        console.log(keyword)
+        keyword = encodeURI(keyword)
+        console.log("编码以后")
+        console.log(keyword)
+        axios.get('http://39.105.116.51:8080/freqPhrases/' + keyword).then(response => {
+         console.log(response.data)
+         this.documentList_freq = [response.data]
+       })
+        axios.get('http://39.105.116.51:8080/getTotalWords/').then(response => {
+         console.log(response.data)
+         this.documentList_words = [response.data]
+       })
+    }
+      },
      async matchCount () {
        var keyword = this.queryInfo.keyword
        console.log(keyword)
@@ -536,7 +613,8 @@
           console.log(this.documentList[i].words)
           let keywordArr = keyword.split(",");
           var str = this.documentList[i].words + "";
-          keywordArr.forEach(item => {
+         console.log(this.documentList[i].words)
+         keywordArr.forEach(item => {
          if (str.toLowerCase().search(item) !== -1 && item !== "") {
          this.documentList[i].words = this.documentList[i].words.replace(
            new RegExp("(" + item + ")", "ig"),
@@ -577,12 +655,12 @@
          if (keyword.length > 0) {
            let keywordArr = keyword.split(",");
            console.log(keywordArr)
-           this.documentListRow[0].content = this.documentListRow[0].content + "";
+           var str = this.documentListRow[0].content + "";
            keywordArr.forEach(item => {
-           if (this.documentListRow[0].content.indexOf(item) !== -1 && item !== "") {
+           if (str.toLowerCase().indexOf(item) !== -1 && item !== "") {
             this.documentListRow[0].content = this.documentListRow[0].content.replace(
-              new RegExp(item, "ig"),
-              '<font color="#fe7300"><strong>' + item + "</strong></font>"
+              new RegExp("(" + item + ")", "ig"),
+              '<font color="#fe7300"><strong>$1</strong></font>'
             );
           }
         });
@@ -627,6 +705,7 @@
             that.clientHeight = window.screenHeight
           })()
         }
+        this.initEcharts();
       },
       // TODO: 
       //   - Define a detailed page template firstly,
@@ -640,7 +719,7 @@
         this.$router.go(0);
       }
    }
- }
+ 
  </script>
 
 <style lang="less" scoped>
